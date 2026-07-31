@@ -1,0 +1,39 @@
+# Foundry is a DEVELOPMENT-ONLY dependency of this template, kept for exactly one job:
+# branch coverage. Hardhat 3 / EDR reports line coverage but not branch data, and the
+# branch gate is part of the QA bar. `forge test` is never a CI gate on its own — but a
+# test that is green on EDR and red on forge does block the branch gate, so forge is in
+# practice a second runner and must stay green.
+[profile.default]
+src = "contracts"
+test = "test"
+out = "forge-out"
+libs = ["node_modules"]
+solc = "0.8.36"
+evm_version = "cancun"
+optimizer = false
+
+# pnpm stores real packages under .pnpm/<name>@<version>/node_modules/<name> and links
+# them into node_modules/. Without explicit remappings forge resolves neither import.
+remappings = [
+    "@openzeppelin/contracts/=node_modules/@openzeppelin/contracts/",
+    "@openzeppelin/contracts-upgradeable/=node_modules/@openzeppelin/contracts-upgradeable/",
+    "forge-std/=node_modules/forge-std/src/",
+]
+
+[profile.default.fuzz]
+runs = 256
+
+[profile.default.invariant]
+runs = 64
+depth = 32
+
+# Coverage runs the whole suite; full fuzz/invariant budgets make it needlessly slow
+# without covering a single extra branch.
+[profile.coverage.fuzz]
+runs = 16
+
+# Small, but not so small that a sequence can finish without moving money — the
+# `afterInvariant` liveness guard fails below roughly this budget, and it is right to.
+[profile.coverage.invariant]
+runs = 8
+depth = 32

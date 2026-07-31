@@ -1,0 +1,2062 @@
+{
+  "contracts": {
+    "contracts/access/AccessRegistry.sol:AccessRegistry": {
+      "sourceName": "contracts/access/AccessRegistry.sol",
+      "contractName": "AccessRegistry",
+      "proxyChain": [],
+      "deployment": {
+        "min": 2854453,
+        "max": 2854453,
+        "avg": 2854453,
+        "median": 2854453,
+        "count": 15,
+        "runtimeSize": 12868
+      },
+      "functions": {
+        "initialize": {
+          "min": 562305,
+          "max": 562305,
+          "avg": 562305,
+          "median": 562305,
+          "count": 11
+        },
+        "proxiableUUID": {
+          "min": 485,
+          "max": 485,
+          "avg": 485,
+          "median": 485,
+          "count": 1
+        }
+      }
+    },
+    "contracts/access/AccessRegistry.sol:AccessRegistry (via <UnrecognizedContract>)": {
+      "sourceName": "contracts/access/AccessRegistry.sol",
+      "contractName": "AccessRegistry",
+      "proxyChain": [
+        "<UnrecognizedContract>",
+        "contracts/access/AccessRegistry.sol:AccessRegistry"
+      ],
+      "deployment": {
+        "min": 2854453,
+        "max": 2854453,
+        "avg": 2854453,
+        "median": 2854453,
+        "count": 15,
+        "runtimeSize": 12868
+      },
+      "functions": {
+        "acceptDefaultAdminTransfer": {
+          "min": 98760,
+          "max": 98760,
+          "avg": 98760,
+          "median": 98760,
+          "count": 1
+        },
+        "beginDefaultAdminTransfer": {
+          "min": 39876,
+          "max": 39876,
+          "avg": 39876,
+          "median": 39876,
+          "count": 3
+        },
+        "cancelDefaultAdminTransfer": {
+          "min": 35573,
+          "max": 35573,
+          "avg": 35573,
+          "median": 35573,
+          "count": 1
+        },
+        "DEFAULT_ADMIN_ROLE": {
+          "min": 5345,
+          "max": 5345,
+          "avg": 5345,
+          "median": 5345,
+          "count": 10
+        },
+        "defaultAdmin": {
+          "min": 7627,
+          "max": 7627,
+          "avg": 7627,
+          "median": 7627,
+          "count": 6
+        },
+        "defaultAdminDelay": {
+          "min": 9921,
+          "max": 9921,
+          "avg": 9921,
+          "median": 9921,
+          "count": 1
+        },
+        "getRoleAdmin": {
+          "min": 7890,
+          "max": 7890,
+          "avg": 7890,
+          "median": 7890,
+          "count": 19
+        },
+        "getRoleMember": {
+          "min": 10363,
+          "max": 10363,
+          "avg": 10363,
+          "median": 10363,
+          "count": 4
+        },
+        "getRoleMemberCount": {
+          "min": 7941,
+          "max": 7941,
+          "avg": 7941,
+          "median": 7941,
+          "count": 10
+        },
+        "getRoleMembers": {
+          "min": 13406,
+          "max": 13406,
+          "avg": 13406,
+          "median": 13406,
+          "count": 1
+        },
+        "grantRole": {
+          "min": 35336,
+          "max": 124665,
+          "avg": 122098,
+          "median": 124665,
+          "count": 83
+        },
+        "hasRole": {
+          "min": 1717,
+          "max": 8217,
+          "avg": 8100,
+          "median": 8217,
+          "count": 574
+        },
+        "isCriticalRole": {
+          "min": 5736,
+          "max": 5780,
+          "avg": 5771,
+          "median": 5780,
+          "count": 12
+        },
+        "pendingDefaultAdmin": {
+          "min": 7893,
+          "max": 7893,
+          "avg": 7893,
+          "median": 7893,
+          "count": 2
+        },
+        "renounceRole": {
+          "min": 41748,
+          "max": 41748,
+          "avg": 41748,
+          "median": 41748,
+          "count": 1
+        },
+        "revokeRole": {
+          "min": 45276,
+          "max": 45276,
+          "avg": 45276,
+          "median": 45276,
+          "count": 2
+        },
+        "supportsInterface": {
+          "min": 5644,
+          "max": 5979,
+          "avg": 5838,
+          "median": 5864,
+          "count": 4
+        }
+      }
+    },
+    "contracts/compliance/ComplianceRegistry.sol:ComplianceRegistry": {
+      "sourceName": "contracts/compliance/ComplianceRegistry.sol",
+      "contractName": "ComplianceRegistry",
+      "proxyChain": [],
+      "deployment": {
+        "min": 2066132,
+        "max": 2066132,
+        "avg": 2066132,
+        "median": 2066132,
+        "count": 13,
+        "runtimeSize": 9209
+      },
+      "functions": {
+        "initialize": {
+          "min": 53685,
+          "max": 73585,
+          "avg": 71595,
+          "median": 73585,
+          "count": 10
+        },
+        "proxiableUUID": {
+          "min": 441,
+          "max": 441,
+          "avg": 441,
+          "median": 441,
+          "count": 1
+        }
+      }
+    },
+    "contracts/compliance/ComplianceRegistry.sol:ComplianceRegistry (via <UnrecognizedContract>)": {
+      "sourceName": "contracts/compliance/ComplianceRegistry.sol",
+      "contractName": "ComplianceRegistry",
+      "proxyChain": [
+        "<UnrecognizedContract>",
+        "contracts/compliance/ComplianceRegistry.sol:ComplianceRegistry"
+      ],
+      "deployment": {
+        "min": 2066132,
+        "max": 2066132,
+        "avg": 2066132,
+        "median": 2066132,
+        "count": 13,
+        "runtimeSize": 9209
+      },
+      "functions": {
+        "accessRegistry": {
+          "min": 7743,
+          "max": 7743,
+          "avg": 7743,
+          "median": 7743,
+          "count": 1
+        },
+        "blacklistOperatorRole": {
+          "min": 5393,
+          "max": 5393,
+          "avg": 5393,
+          "median": 5393,
+          "count": 1
+        },
+        "checkNotSanctioned": {
+          "min": 3893,
+          "max": 16893,
+          "avg": 10488,
+          "median": 5893,
+          "count": 37
+        },
+        "checkParty": {
+          "min": 4247,
+          "max": 19247,
+          "avg": 9910,
+          "median": 4247,
+          "count": 98
+        },
+        "checkTransfer": {
+          "min": 11744,
+          "max": 26744,
+          "avg": 15476,
+          "median": 11744,
+          "count": 45
+        },
+        "checkVaultOp": {
+          "min": 19518,
+          "max": 21831,
+          "avg": 19546,
+          "median": 19518,
+          "count": 166
+        },
+        "complianceAdminRole": {
+          "min": 5371,
+          "max": 5371,
+          "avg": 5371,
+          "median": 5371,
+          "count": 1
+        },
+        "greenlistEnabled": {
+          "min": 7575,
+          "max": 7575,
+          "avg": 7575,
+          "median": 7575,
+          "count": 2
+        },
+        "greenlistOperatorRole": {
+          "min": 5371,
+          "max": 5371,
+          "avg": 5371,
+          "median": 5371,
+          "count": 1
+        },
+        "isBlacklisted": {
+          "min": 7993,
+          "max": 7993,
+          "avg": 7993,
+          "median": 7993,
+          "count": 36
+        },
+        "isGreenlisted": {
+          "min": 7930,
+          "max": 7930,
+          "avg": 7930,
+          "median": 7930,
+          "count": 2
+        },
+        "isPartyAllowed": {
+          "min": 8043,
+          "max": 113763,
+          "avg": 31282,
+          "median": 16550,
+          "count": 23
+        },
+        "isSanctioned": {
+          "min": 17058,
+          "max": 17058,
+          "avg": 17058,
+          "median": 17058,
+          "count": 9
+        },
+        "isVaultOpAllowed": {
+          "min": 8135,
+          "max": 22051,
+          "avg": 16611,
+          "median": 19521,
+          "count": 7
+        },
+        "sanctionsOracle": {
+          "min": 7623,
+          "max": 7623,
+          "avg": 7623,
+          "median": 7623,
+          "count": 3
+        },
+        "setBlacklisted": {
+          "min": 43312,
+          "max": 65202,
+          "avg": 58878,
+          "median": 65202,
+          "count": 45
+        },
+        "setGreenlisted": {
+          "min": 65184,
+          "max": 65184,
+          "avg": 65184,
+          "median": 65184,
+          "count": 5
+        },
+        "setGreenlistEnabled": {
+          "min": 46911,
+          "max": 46923,
+          "avg": 46921,
+          "median": 46923,
+          "count": 6
+        }
+      }
+    },
+    "contracts/deps/RwaTimelockController.sol:RwaTimelockController": {
+      "sourceName": "contracts/deps/RwaTimelockController.sol",
+      "contractName": "RwaTimelockController",
+      "proxyChain": [],
+      "deployment": {
+        "min": 2540507,
+        "max": 2540507,
+        "avg": 2540507,
+        "median": 2540507,
+        "count": 11,
+        "runtimeSize": 10827
+      },
+      "functions": {
+        "execute": {
+          "min": 58041,
+          "max": 160158,
+          "avg": 100308,
+          "median": 69340,
+          "count": 59
+        },
+        "schedule": {
+          "min": 56810,
+          "max": 58335,
+          "avg": 57401,
+          "median": 57297,
+          "count": 59
+        }
+      }
+    },
+    "contracts/mocks/MockAggregator.sol:MockAggregator": {
+      "sourceName": "contracts/mocks/MockAggregator.sol",
+      "contractName": "MockAggregator",
+      "proxyChain": [],
+      "deployment": {
+        "min": 517350,
+        "max": 517350,
+        "avg": 517350,
+        "median": 517350,
+        "count": 2,
+        "runtimeSize": 1715
+      },
+      "functions": {
+        "decimals": {
+          "min": 2473,
+          "max": 2473,
+          "avg": 2473,
+          "median": 2473,
+          "count": 9
+        },
+        "latestRoundData": {
+          "min": 7428,
+          "max": 7428,
+          "avg": 7428,
+          "median": 7428,
+          "count": 14
+        },
+        "setAnswer": {
+          "min": 32158,
+          "max": 51642,
+          "avg": 37232,
+          "median": 36994,
+          "count": 9
+        },
+        "setAnswerWithTimestamp": {
+          "min": 34573,
+          "max": 34573,
+          "avg": 34573,
+          "median": 34573,
+          "count": 1
+        },
+        "setDecimals": {
+          "min": 26743,
+          "max": 26743,
+          "avg": 26743,
+          "median": 26743,
+          "count": 4
+        }
+      }
+    },
+    "contracts/mocks/MockERC20.sol:MockERC20": {
+      "sourceName": "contracts/mocks/MockERC20.sol",
+      "contractName": "MockERC20",
+      "proxyChain": [],
+      "deployment": {
+        "min": 972095,
+        "max": 972167,
+        "avg": 972151,
+        "median": 972167,
+        "count": 9,
+        "runtimeSize": 3945
+      },
+      "functions": {
+        "allowance": {
+          "min": 3245,
+          "max": 3245,
+          "avg": 3245,
+          "median": 3245,
+          "count": 9
+        },
+        "approve": {
+          "min": 29792,
+          "max": 47240,
+          "avg": 46322,
+          "median": 47240,
+          "count": 19
+        },
+        "balanceOf": {
+          "min": 850,
+          "max": 2850,
+          "avg": 2025,
+          "median": 2850,
+          "count": 240
+        },
+        "decimals": {
+          "min": 427,
+          "max": 427,
+          "avg": 427,
+          "median": 427,
+          "count": 12
+        },
+        "mint": {
+          "min": 51799,
+          "max": 68911,
+          "avg": 56557,
+          "median": 51811,
+          "count": 18
+        }
+      }
+    },
+    "contracts/mocks/MockSanctionsList.sol:MockSanctionsList": {
+      "sourceName": "contracts/mocks/MockSanctionsList.sol",
+      "contractName": "MockSanctionsList",
+      "proxyChain": [],
+      "deployment": {
+        "min": 343320,
+        "max": 343320,
+        "avg": 343320,
+        "median": 343320,
+        "count": 9,
+        "runtimeSize": 1345
+      },
+      "functions": {
+        "isSanctioned": {
+          "min": 1311,
+          "max": 5311,
+          "avg": 4074,
+          "median": 5311,
+          "count": 422
+        },
+        "setMode": {
+          "min": 26626,
+          "max": 43726,
+          "avg": 40876,
+          "median": 43726,
+          "count": 6
+        },
+        "setSanctioned": {
+          "min": 22583,
+          "max": 44495,
+          "avg": 42669,
+          "median": 44495,
+          "count": 12
+        }
+      }
+    },
+    "contracts/mocks/MockUSDT.sol:MockUSDT": {
+      "sourceName": "contracts/mocks/MockUSDT.sol",
+      "contractName": "MockUSDT",
+      "proxyChain": [],
+      "deployment": {
+        "min": 940991,
+        "max": 940991,
+        "avg": 940991,
+        "median": 940991,
+        "count": 5,
+        "runtimeSize": 4119
+      },
+      "functions": {
+        "approve": {
+          "min": 46875,
+          "max": 46875,
+          "avg": 46875,
+          "median": 46875,
+          "count": 19
+        },
+        "balanceOf": {
+          "min": 847,
+          "max": 2847,
+          "avg": 2011,
+          "median": 2847,
+          "count": 67
+        },
+        "decimals": {
+          "min": 405,
+          "max": 405,
+          "avg": 405,
+          "median": 405,
+          "count": 10
+        },
+        "isBlocked": {
+          "min": 2943,
+          "max": 2943,
+          "avg": 2943,
+          "median": 2943,
+          "count": 9
+        },
+        "mint": {
+          "min": 51880,
+          "max": 68992,
+          "avg": 56386,
+          "median": 51880,
+          "count": 19
+        },
+        "setBlocked": {
+          "min": 22551,
+          "max": 44463,
+          "avg": 41092,
+          "median": 44463,
+          "count": 13
+        },
+        "setTransferFeeBps": {
+          "min": 43786,
+          "max": 43798,
+          "avg": 43792,
+          "median": 43792,
+          "count": 2
+        }
+      }
+    },
+    "contracts/mocks/ReentrantPaymentToken.sol:ReentrantPaymentToken": {
+      "sourceName": "contracts/mocks/ReentrantPaymentToken.sol",
+      "contractName": "ReentrantPaymentToken",
+      "proxyChain": [],
+      "deployment": {
+        "min": 1334470,
+        "max": 1334470,
+        "avg": 1334470,
+        "median": 1334470,
+        "count": 1,
+        "runtimeSize": 5667
+      },
+      "functions": {
+        "approve": {
+          "min": 47263,
+          "max": 47263,
+          "avg": 47263,
+          "median": 47263,
+          "count": 1
+        },
+        "arm": {
+          "min": 159240,
+          "max": 159240,
+          "avg": 159240,
+          "median": 159240,
+          "count": 1
+        },
+        "balanceOf": {
+          "min": 2873,
+          "max": 2873,
+          "avg": 2873,
+          "median": 2873,
+          "count": 1
+        },
+        "decimals": {
+          "min": 405,
+          "max": 405,
+          "avg": 405,
+          "median": 405,
+          "count": 1
+        },
+        "mint": {
+          "min": 71116,
+          "max": 71116,
+          "avg": 71116,
+          "median": 71116,
+          "count": 1
+        }
+      }
+    },
+    "contracts/oracle/AdminNavAggregator.sol:AdminNavAggregator": {
+      "sourceName": "contracts/oracle/AdminNavAggregator.sol",
+      "contractName": "AdminNavAggregator",
+      "proxyChain": [],
+      "deployment": {
+        "min": 2474413,
+        "max": 2474413,
+        "avg": 2474413,
+        "median": 2474413,
+        "count": 14,
+        "runtimeSize": 11103
+      },
+      "functions": {
+        "initialize": {
+          "min": 190213,
+          "max": 214494,
+          "avg": 193248,
+          "median": 190213,
+          "count": 8
+        },
+        "proxiableUUID": {
+          "min": 485,
+          "max": 485,
+          "avg": 485,
+          "median": 485,
+          "count": 1
+        }
+      }
+    },
+    "contracts/oracle/AdminNavAggregator.sol:AdminNavAggregator (via <UnrecognizedContract>)": {
+      "sourceName": "contracts/oracle/AdminNavAggregator.sol",
+      "contractName": "AdminNavAggregator",
+      "proxyChain": [
+        "<UnrecognizedContract>",
+        "contracts/oracle/AdminNavAggregator.sol:AdminNavAggregator"
+      ],
+      "deployment": {
+        "min": 2474413,
+        "max": 2474413,
+        "avg": 2474413,
+        "median": 2474413,
+        "count": 14,
+        "runtimeSize": 11103
+      },
+      "functions": {
+        "decimals": {
+          "min": 1051,
+          "max": 7551,
+          "avg": 1106,
+          "median": 1051,
+          "count": 119
+        },
+        "description": {
+          "min": 5703,
+          "max": 5703,
+          "avg": 5703,
+          "median": 5703,
+          "count": 1
+        },
+        "deviationBps": {
+          "min": 7510,
+          "max": 7510,
+          "avg": 7510,
+          "median": 7510,
+          "count": 3
+        },
+        "feedAdminRole": {
+          "min": 5394,
+          "max": 5394,
+          "avg": 5394,
+          "median": 5394,
+          "count": 1
+        },
+        "feedOperatorRole": {
+          "min": 5415,
+          "max": 5415,
+          "avg": 5415,
+          "median": 5415,
+          "count": 1
+        },
+        "getRoundData": {
+          "min": 10681,
+          "max": 10681,
+          "avg": 10681,
+          "median": 10681,
+          "count": 1
+        },
+        "hardBounds": {
+          "min": 9722,
+          "max": 9722,
+          "avg": 9722,
+          "median": 9722,
+          "count": 3
+        },
+        "isOperationPaused": {
+          "min": 7868,
+          "max": 7868,
+          "avg": 7868,
+          "median": 7868,
+          "count": 1
+        },
+        "latestRoundData": {
+          "min": 10835,
+          "max": 10835,
+          "avg": 10835,
+          "median": 10835,
+          "count": 131
+        },
+        "MAX_DEVIATION_BPS": {
+          "min": 5342,
+          "max": 5342,
+          "avg": 5342,
+          "median": 5342,
+          "count": 1
+        },
+        "MAX_UPDATE_COOLDOWN": {
+          "min": 5362,
+          "max": 5362,
+          "avg": 5362,
+          "median": 5362,
+          "count": 1
+        },
+        "pauseOperation": {
+          "min": 65423,
+          "max": 65423,
+          "avg": 65423,
+          "median": 65423,
+          "count": 2
+        },
+        "setRoundData": {
+          "min": 61982,
+          "max": 61982,
+          "avg": 61982,
+          "median": 61982,
+          "count": 2
+        },
+        "setRoundDataSafe": {
+          "min": 62613,
+          "max": 65435,
+          "avg": 65079,
+          "median": 65435,
+          "count": 40
+        },
+        "supportedOperations": {
+          "min": 6066,
+          "max": 6066,
+          "avg": 6066,
+          "median": 6066,
+          "count": 3
+        },
+        "unpauseOperation": {
+          "min": 43512,
+          "max": 43512,
+          "avg": 43512,
+          "median": 43512,
+          "count": 1
+        },
+        "updateCooldown": {
+          "min": 7554,
+          "max": 7554,
+          "avg": 7554,
+          "median": 7554,
+          "count": 3
+        },
+        "version": {
+          "min": 5415,
+          "max": 5415,
+          "avg": 5415,
+          "median": 5415,
+          "count": 1
+        }
+      }
+    },
+    "contracts/oracle/DataFeed.sol:DataFeed": {
+      "sourceName": "contracts/oracle/DataFeed.sol",
+      "contractName": "DataFeed",
+      "proxyChain": [],
+      "deployment": {
+        "min": 1871850,
+        "max": 1871850,
+        "avg": 1871850,
+        "median": 1871850,
+        "count": 13,
+        "runtimeSize": 8305
+      },
+      "functions": {
+        "initialize": {
+          "min": 142177,
+          "max": 142177,
+          "avg": 142177,
+          "median": 142177,
+          "count": 8
+        },
+        "proxiableUUID": {
+          "min": 484,
+          "max": 484,
+          "avg": 484,
+          "median": 484,
+          "count": 1
+        }
+      }
+    },
+    "contracts/oracle/DataFeed.sol:DataFeed (via <UnrecognizedContract>)": {
+      "sourceName": "contracts/oracle/DataFeed.sol",
+      "contractName": "DataFeed",
+      "proxyChain": [
+        "<UnrecognizedContract>",
+        "contracts/oracle/DataFeed.sol:DataFeed"
+      ],
+      "deployment": {
+        "min": 1871850,
+        "max": 1871850,
+        "avg": 1871850,
+        "median": 1871850,
+        "count": 13,
+        "runtimeSize": 8305
+      },
+      "functions": {
+        "aggregator": {
+          "min": 7548,
+          "max": 7548,
+          "avg": 7548,
+          "median": 7548,
+          "count": 3
+        },
+        "getPrice": {
+          "min": 24928,
+          "max": 31413,
+          "avg": 31243,
+          "median": 31413,
+          "count": 124
+        },
+        "healthyDiff": {
+          "min": 7466,
+          "max": 7466,
+          "avg": 7466,
+          "median": 7466,
+          "count": 3
+        },
+        "isHealthy": {
+          "min": 22293,
+          "max": 35300,
+          "avg": 28932,
+          "median": 29068,
+          "count": 4
+        },
+        "MAX_HEALTHY_DIFF": {
+          "min": 5320,
+          "max": 5320,
+          "avg": 5320,
+          "median": 5320,
+          "count": 1
+        },
+        "priceBounds": {
+          "min": 9720,
+          "max": 9720,
+          "avg": 9720,
+          "median": 9720,
+          "count": 3
+        }
+      }
+    },
+    "contracts/testers/DecimalsConverterTester.sol:DecimalsConverterTester": {
+      "sourceName": "contracts/testers/DecimalsConverterTester.sol",
+      "contractName": "DecimalsConverterTester",
+      "proxyChain": [],
+      "deployment": {
+        "min": 342630,
+        "max": 342630,
+        "avg": 342630,
+        "median": 342630,
+        "count": 1,
+        "runtimeSize": 1343
+      },
+      "functions": {
+        "fromWadDown": {
+          "min": 1532,
+          "max": 1761,
+          "avg": 1704,
+          "median": 1761,
+          "count": 4
+        },
+        "toWad": {
+          "min": 1580,
+          "max": 1809,
+          "avg": 1763,
+          "median": 1809,
+          "count": 5
+        },
+        "wadDecimals": {
+          "min": 316,
+          "max": 316,
+          "avg": 316,
+          "median": 316,
+          "count": 1
+        }
+      }
+    },
+    "contracts/testers/OperationPausableTester.sol:OperationPausableTester": {
+      "sourceName": "contracts/testers/OperationPausableTester.sol",
+      "contractName": "OperationPausableTester",
+      "proxyChain": [],
+      "deployment": {
+        "min": 1649743,
+        "max": 1649743,
+        "avg": 1649743,
+        "median": 1649743,
+        "count": 5,
+        "runtimeSize": 7275
+      },
+      "functions": {
+        "initialize": {
+          "min": 48431,
+          "max": 96723,
+          "avg": 72577,
+          "median": 72577,
+          "count": 2
+        },
+        "proxiableUUID": {
+          "min": 484,
+          "max": 484,
+          "avg": 484,
+          "median": 484,
+          "count": 1
+        }
+      }
+    },
+    "contracts/testers/OperationPausableTester.sol:OperationPausableTester (via <UnrecognizedContract>)": {
+      "sourceName": "contracts/testers/OperationPausableTester.sol",
+      "contractName": "OperationPausableTester",
+      "proxyChain": [
+        "<UnrecognizedContract>",
+        "contracts/testers/OperationPausableTester.sol:OperationPausableTester"
+      ],
+      "deployment": {
+        "min": 1649743,
+        "max": 1649743,
+        "avg": 1649743,
+        "median": 1649743,
+        "count": 5,
+        "runtimeSize": 7275
+      },
+      "functions": {
+        "accessRegistry": {
+          "min": 7787,
+          "max": 7787,
+          "avg": 7787,
+          "median": 7787,
+          "count": 1
+        },
+        "criticalConfigRole": {
+          "min": 5349,
+          "max": 5349,
+          "avg": 5349,
+          "median": 5349,
+          "count": 1
+        },
+        "depositCount": {
+          "min": 7485,
+          "max": 7485,
+          "avg": 7485,
+          "median": 7485,
+          "count": 1
+        },
+        "doDeposit": {
+          "min": 50849,
+          "max": 50849,
+          "avg": 50849,
+          "median": 50849,
+          "count": 1
+        },
+        "doRedeem": {
+          "min": 50785,
+          "max": 50785,
+          "avg": 50785,
+          "median": 50785,
+          "count": 1
+        },
+        "hasRoleView": {
+          "min": 19594,
+          "max": 19594,
+          "avg": 19594,
+          "median": 19594,
+          "count": 2
+        },
+        "isOperationPaused": {
+          "min": 7845,
+          "max": 7845,
+          "avg": 7845,
+          "median": 7845,
+          "count": 6
+        },
+        "pauseOperation": {
+          "min": 65494,
+          "max": 65620,
+          "avg": 65515,
+          "median": 65494,
+          "count": 6
+        },
+        "pauserRole": {
+          "min": 5370,
+          "max": 5370,
+          "avg": 5370,
+          "median": 5370,
+          "count": 1
+        },
+        "redeemCount": {
+          "min": 7464,
+          "max": 7464,
+          "avg": 7464,
+          "median": 7464,
+          "count": 1
+        },
+        "requireRole": {
+          "min": 19402,
+          "max": 19402,
+          "avg": 19402,
+          "median": 19402,
+          "count": 1
+        },
+        "supportedOperations": {
+          "min": 6384,
+          "max": 6384,
+          "avg": 6384,
+          "median": 6384,
+          "count": 1
+        },
+        "unpauseOperation": {
+          "min": 43495,
+          "max": 43621,
+          "avg": 43537,
+          "median": 43495,
+          "count": 3
+        },
+        "unpauserRole": {
+          "min": 5414,
+          "max": 5414,
+          "avg": 5414,
+          "median": 5414,
+          "count": 1
+        },
+        "upgraderRole": {
+          "min": 5327,
+          "max": 5327,
+          "avg": 5327,
+          "median": 5327,
+          "count": 1
+        }
+      }
+    },
+    "contracts/testers/RefundReplayAttacker.sol:RefundReplayAttacker": {
+      "sourceName": "contracts/testers/RefundReplayAttacker.sol",
+      "contractName": "RefundReplayAttacker",
+      "proxyChain": [],
+      "deployment": {
+        "min": 679471,
+        "max": 679471,
+        "avg": 679471,
+        "median": 679471,
+        "count": 11,
+        "runtimeSize": 2889
+      },
+      "functions": {
+        "forceTwice": {
+          "min": 98304,
+          "max": 98304,
+          "avg": 98304,
+          "median": 98304,
+          "count": 1
+        },
+        "refund": {
+          "min": 110957,
+          "max": 110969,
+          "avg": 110965,
+          "median": 110969,
+          "count": 3
+        },
+        "refundTwice": {
+          "min": 133821,
+          "max": 133821,
+          "avg": 133821,
+          "median": 133821,
+          "count": 1
+        }
+      }
+    },
+    "contracts/testers/RwaTokenTester.sol:RwaTokenTester": {
+      "sourceName": "contracts/testers/RwaTokenTester.sol",
+      "contractName": "RwaTokenTester",
+      "proxyChain": [],
+      "deployment": {
+        "min": 4184801,
+        "max": 4184801,
+        "avg": 4184801,
+        "median": 4184801,
+        "count": 11,
+        "runtimeSize": 19034
+      },
+      "functions": {
+        "initialize": {
+          "min": 167046,
+          "max": 191330,
+          "avg": 170515,
+          "median": 167046,
+          "count": 7
+        },
+        "proxiableUUID": {
+          "min": 440,
+          "max": 440,
+          "avg": 440,
+          "median": 440,
+          "count": 1
+        }
+      }
+    },
+    "contracts/testers/RwaTokenTester.sol:RwaTokenTester (via <UnrecognizedContract>)": {
+      "sourceName": "contracts/testers/RwaTokenTester.sol",
+      "contractName": "RwaTokenTester",
+      "proxyChain": [
+        "<UnrecognizedContract>",
+        "contracts/testers/RwaTokenTester.sol:RwaTokenTester"
+      ],
+      "deployment": {
+        "min": 4184801,
+        "max": 4184801,
+        "avg": 4184801,
+        "median": 4184801,
+        "count": 11,
+        "runtimeSize": 19034
+      },
+      "functions": {
+        "allowance": {
+          "min": 8208,
+          "max": 8208,
+          "avg": 8208,
+          "median": 8208,
+          "count": 1
+        },
+        "approve": {
+          "min": 52292,
+          "max": 52292,
+          "avg": 52292,
+          "median": 52292,
+          "count": 9
+        },
+        "balanceOf": {
+          "min": 3443,
+          "max": 7943,
+          "avg": 7524,
+          "median": 7943,
+          "count": 161
+        },
+        "burn": {
+          "min": 81559,
+          "max": 81559,
+          "avg": 81559,
+          "median": 81559,
+          "count": 1
+        },
+        "burnerRole": {
+          "min": 5436,
+          "max": 5436,
+          "avg": 5436,
+          "median": 5436,
+          "count": 1
+        },
+        "canReceive": {
+          "min": 21461,
+          "max": 127181,
+          "avg": 59537,
+          "median": 29968,
+          "count": 3
+        },
+        "canSend": {
+          "min": 7982,
+          "max": 127159,
+          "avg": 38902,
+          "median": 21439,
+          "count": 5
+        },
+        "canTransfer": {
+          "min": 8510,
+          "max": 127687,
+          "avg": 45511,
+          "median": 47681,
+          "count": 7
+        },
+        "complianceRegistry": {
+          "min": 7810,
+          "max": 7810,
+          "avg": 7810,
+          "median": 7810,
+          "count": 1
+        },
+        "decimals": {
+          "min": 5377,
+          "max": 5377,
+          "avg": 5377,
+          "median": 5377,
+          "count": 1
+        },
+        "DOMAIN_SEPARATOR": {
+          "min": 12024,
+          "max": 12024,
+          "avg": 12024,
+          "median": 12024,
+          "count": 1
+        },
+        "enforcerRole": {
+          "min": 5415,
+          "max": 5415,
+          "avg": 5415,
+          "median": 5415,
+          "count": 1
+        },
+        "forcedTransfer": {
+          "min": 74636,
+          "max": 84031,
+          "avg": 79368,
+          "median": 79436,
+          "count": 3
+        },
+        "getFrozenTokens": {
+          "min": 7911,
+          "max": 7911,
+          "avg": 7911,
+          "median": 7911,
+          "count": 5
+        },
+        "isOperationPaused": {
+          "min": 7890,
+          "max": 7890,
+          "avg": 7890,
+          "median": 7890,
+          "count": 18
+        },
+        "mint": {
+          "min": 96331,
+          "max": 113431,
+          "avg": 112859,
+          "median": 113431,
+          "count": 30
+        },
+        "minterRole": {
+          "min": 5457,
+          "max": 5457,
+          "avg": 5457,
+          "median": 5457,
+          "count": 1
+        },
+        "name": {
+          "min": 8427,
+          "max": 8427,
+          "avg": 8427,
+          "median": 8427,
+          "count": 2
+        },
+        "nonces": {
+          "min": 8029,
+          "max": 8029,
+          "avg": 8029,
+          "median": 8029,
+          "count": 1
+        },
+        "pauseOperation": {
+          "min": 65357,
+          "max": 65357,
+          "avg": 65357,
+          "median": 65357,
+          "count": 18
+        },
+        "permit": {
+          "min": 88623,
+          "max": 88623,
+          "avg": 88623,
+          "median": 88623,
+          "count": 1
+        },
+        "refundVaultRole": {
+          "min": 5369,
+          "max": 5369,
+          "avg": 5369,
+          "median": 5369,
+          "count": 1
+        },
+        "setFrozenTokens": {
+          "min": 65129,
+          "max": 65153,
+          "avg": 65146,
+          "median": 65153,
+          "count": 7
+        },
+        "supportedOperations": {
+          "min": 6088,
+          "max": 6088,
+          "avg": 6088,
+          "median": 6088,
+          "count": 3
+        },
+        "supportsInterface": {
+          "min": 5684,
+          "max": 5742,
+          "avg": 5720,
+          "median": 5728,
+          "count": 4
+        },
+        "symbol": {
+          "min": 8448,
+          "max": 8448,
+          "avg": 8448,
+          "median": 8448,
+          "count": 1
+        },
+        "totalSupply": {
+          "min": 1045,
+          "max": 7545,
+          "avg": 5158,
+          "median": 7545,
+          "count": 200
+        },
+        "transfer": {
+          "min": 81590,
+          "max": 95656,
+          "avg": 92522,
+          "median": 95126,
+          "count": 5
+        },
+        "transferFrom": {
+          "min": 96717,
+          "max": 96717,
+          "avg": 96717,
+          "median": 96717,
+          "count": 1
+        },
+        "unpauseOperation": {
+          "min": 43447,
+          "max": 43447,
+          "avg": 43447,
+          "median": 43447,
+          "count": 7
+        }
+      }
+    },
+    "contracts/vaults/DepositVault.sol:DepositVault": {
+      "sourceName": "contracts/vaults/DepositVault.sol",
+      "contractName": "DepositVault",
+      "proxyChain": [],
+      "deployment": {
+        "min": 5908231,
+        "max": 5908231,
+        "avg": 5908231,
+        "median": 5908231,
+        "count": 10,
+        "runtimeSize": 27025
+      },
+      "functions": {
+        "initialize": {
+          "min": 350436,
+          "max": 398725,
+          "avg": 358484,
+          "median": 350436,
+          "count": 6
+        },
+        "proxiableUUID": {
+          "min": 463,
+          "max": 463,
+          "avg": 463,
+          "median": 463,
+          "count": 1
+        }
+      }
+    },
+    "contracts/vaults/DepositVault.sol:DepositVault (via <UnrecognizedContract>)": {
+      "sourceName": "contracts/vaults/DepositVault.sol",
+      "contractName": "DepositVault",
+      "proxyChain": [
+        "<UnrecognizedContract>",
+        "contracts/vaults/DepositVault.sol:DepositVault"
+      ],
+      "deployment": {
+        "min": 5908231,
+        "max": 5908231,
+        "avg": 5908231,
+        "median": 5908231,
+        "count": 10,
+        "runtimeSize": 27025
+      },
+      "functions": {
+        "addPaymentToken": {
+          "min": 122543,
+          "max": 139665,
+          "avg": 130326,
+          "median": 122543,
+          "count": 11
+        },
+        "approveDepositRequest": {
+          "min": 196635,
+          "max": 267845,
+          "avg": 250040,
+          "median": 267840,
+          "count": 4
+        },
+        "blockedFundsReceiver": {
+          "min": 7593,
+          "max": 7593,
+          "avg": 7593,
+          "median": 7593,
+          "count": 1
+        },
+        "cancelRequest": {
+          "min": 53062,
+          "max": 61087,
+          "avg": 54596,
+          "median": 53356,
+          "count": 12
+        },
+        "complianceRegistry": {
+          "min": 7833,
+          "max": 7833,
+          "avg": 7833,
+          "median": 7833,
+          "count": 2
+        },
+        "dataFeed": {
+          "min": 7790,
+          "max": 7790,
+          "avg": 7790,
+          "median": 7790,
+          "count": 2
+        },
+        "depositInstant": {
+          "min": 218737,
+          "max": 329619,
+          "avg": 278950,
+          "median": 278758,
+          "count": 41
+        },
+        "depositRequest": {
+          "min": 231208,
+          "max": 268304,
+          "avg": 250141,
+          "median": 248308,
+          "count": 30
+        },
+        "feeReceiver": {
+          "min": 7615,
+          "max": 7615,
+          "avg": 7615,
+          "median": 7615,
+          "count": 1
+        },
+        "getRequest": {
+          "min": 4235,
+          "max": 20735,
+          "avg": 20018,
+          "median": 20735,
+          "count": 23
+        },
+        "hasDeposited": {
+          "min": 7994,
+          "max": 7994,
+          "avg": 7994,
+          "median": 7994,
+          "count": 2
+        },
+        "instantDailyLimitWad": {
+          "min": 7555,
+          "max": 7555,
+          "avg": 7555,
+          "median": 7555,
+          "count": 2
+        },
+        "instantFeeBps": {
+          "min": 7576,
+          "max": 7576,
+          "avg": 7576,
+          "median": 7576,
+          "count": 1
+        },
+        "isFeeWaived": {
+          "min": 7954,
+          "max": 7954,
+          "avg": 7954,
+          "median": 7954,
+          "count": 3
+        },
+        "isMinAmountWaived": {
+          "min": 7996,
+          "max": 7996,
+          "avg": 7996,
+          "median": 7996,
+          "count": 2
+        },
+        "isOperationPaused": {
+          "min": 7891,
+          "max": 7891,
+          "avg": 7891,
+          "median": 7891,
+          "count": 3
+        },
+        "MAX_INSTANT_FEE_BPS": {
+          "min": 5408,
+          "max": 5408,
+          "avg": 5408,
+          "median": 5408,
+          "count": 3
+        },
+        "MAX_MIN_AMOUNT_WAD": {
+          "min": 5365,
+          "max": 5365,
+          "avg": 5365,
+          "median": 5365,
+          "count": 1
+        },
+        "MAX_TOKEN_FEE_BPS": {
+          "min": 5387,
+          "max": 5387,
+          "avg": 5387,
+          "median": 5387,
+          "count": 1
+        },
+        "MAX_VARIATION_TOLERANCE_BPS": {
+          "min": 5386,
+          "max": 5386,
+          "avg": 5386,
+          "median": 5386,
+          "count": 1
+        },
+        "maxSupplyCapWad": {
+          "min": 7510,
+          "max": 7510,
+          "avg": 7510,
+          "median": 7510,
+          "count": 3
+        },
+        "MIN_REFUND_GAS": {
+          "min": 5385,
+          "max": 5385,
+          "avg": 5385,
+          "median": 5385,
+          "count": 1
+        },
+        "minAmountWad": {
+          "min": 7534,
+          "max": 7534,
+          "avg": 7534,
+          "median": 7534,
+          "count": 1
+        },
+        "minFirstAmountWad": {
+          "min": 7554,
+          "max": 7554,
+          "avg": 7554,
+          "median": 7554,
+          "count": 1
+        },
+        "nextRequestId": {
+          "min": 7512,
+          "max": 7512,
+          "avg": 7512,
+          "median": 7512,
+          "count": 1
+        },
+        "pauseOperation": {
+          "min": 65494,
+          "max": 65620,
+          "avg": 65557,
+          "median": 65557,
+          "count": 2
+        },
+        "paymentTokenConfig": {
+          "min": 13399,
+          "max": 13399,
+          "avg": 13399,
+          "median": 13399,
+          "count": 2
+        },
+        "paymentTokens": {
+          "min": 13018,
+          "max": 13018,
+          "avg": 13018,
+          "median": 13018,
+          "count": 2
+        },
+        "rejectRequest": {
+          "min": 67271,
+          "max": 72071,
+          "avg": 68471,
+          "median": 67271,
+          "count": 4
+        },
+        "requestOperatorRole": {
+          "min": 5369,
+          "max": 5369,
+          "avg": 5369,
+          "median": 5369,
+          "count": 1
+        },
+        "rwaToken": {
+          "min": 7790,
+          "max": 7790,
+          "avg": 7790,
+          "median": 7790,
+          "count": 1
+        },
+        "setFeeWaiver": {
+          "min": 64952,
+          "max": 64952,
+          "avg": 64952,
+          "median": 64952,
+          "count": 2
+        },
+        "setInstantDailyLimitWad": {
+          "min": 47206,
+          "max": 47206,
+          "avg": 47206,
+          "median": 47206,
+          "count": 3
+        },
+        "setInstantFeeBps": {
+          "min": 47093,
+          "max": 47093,
+          "avg": 47093,
+          "median": 47093,
+          "count": 3
+        },
+        "setMaxSupplyCapWad": {
+          "min": 47241,
+          "max": 47253,
+          "avg": 47245,
+          "median": 47241,
+          "count": 3
+        },
+        "setMinAmountWaiver": {
+          "min": 64886,
+          "max": 64886,
+          "avg": 64886,
+          "median": 64886,
+          "count": 2
+        },
+        "spentTodayWad": {
+          "min": 7830,
+          "max": 7830,
+          "avg": 7830,
+          "median": 7830,
+          "count": 3
+        },
+        "supportedOperations": {
+          "min": 6430,
+          "max": 6430,
+          "avg": 6430,
+          "median": 6430,
+          "count": 1
+        },
+        "tokensReceiver": {
+          "min": 7639,
+          "max": 7639,
+          "avg": 7639,
+          "median": 7639,
+          "count": 2
+        },
+        "updatePaymentToken": {
+          "min": 54070,
+          "max": 71470,
+          "avg": 58558,
+          "median": 54346,
+          "count": 4
+        },
+        "variationToleranceBps": {
+          "min": 7511,
+          "max": 7511,
+          "avg": 7511,
+          "median": 7511,
+          "count": 2
+        },
+        "vaultAdminRole": {
+          "min": 5416,
+          "max": 5416,
+          "avg": 5416,
+          "median": 5416,
+          "count": 1
+        }
+      }
+    },
+    "contracts/vaults/RedemptionVault.sol:RedemptionVault": {
+      "sourceName": "contracts/vaults/RedemptionVault.sol",
+      "contractName": "RedemptionVault",
+      "proxyChain": [],
+      "deployment": {
+        "min": 5812445,
+        "max": 5812445,
+        "avg": 5812445,
+        "median": 5812445,
+        "count": 9,
+        "runtimeSize": 26582
+      },
+      "functions": {
+        "initialize": {
+          "min": 350734,
+          "max": 399020,
+          "avg": 358782,
+          "median": 350734,
+          "count": 6
+        },
+        "proxiableUUID": {
+          "min": 507,
+          "max": 507,
+          "avg": 507,
+          "median": 507,
+          "count": 1
+        }
+      }
+    },
+    "contracts/vaults/RedemptionVault.sol:RedemptionVault (via <UnrecognizedContract>)": {
+      "sourceName": "contracts/vaults/RedemptionVault.sol",
+      "contractName": "RedemptionVault",
+      "proxyChain": [
+        "<UnrecognizedContract>",
+        "contracts/vaults/RedemptionVault.sol:RedemptionVault"
+      ],
+      "deployment": {
+        "min": 5812445,
+        "max": 5812445,
+        "avg": 5812445,
+        "median": 5812445,
+        "count": 9,
+        "runtimeSize": 26582
+      },
+      "functions": {
+        "addPaymentToken": {
+          "min": 122543,
+          "max": 139665,
+          "avg": 131104,
+          "median": 131104,
+          "count": 10
+        },
+        "approveRedeemRequest": {
+          "min": 231706,
+          "max": 231706,
+          "avg": 231706,
+          "median": 231706,
+          "count": 1
+        },
+        "cancelRequest": {
+          "min": 97354,
+          "max": 107856,
+          "avg": 103655,
+          "median": 107856,
+          "count": 5
+        },
+        "getRequest": {
+          "min": 12301,
+          "max": 20801,
+          "avg": 19587,
+          "median": 20801,
+          "count": 7
+        },
+        "instantDailyLimitWad": {
+          "min": 7555,
+          "max": 7555,
+          "avg": 7555,
+          "median": 7555,
+          "count": 1
+        },
+        "isOperationPaused": {
+          "min": 7890,
+          "max": 7890,
+          "avg": 7890,
+          "median": 7890,
+          "count": 2
+        },
+        "MAX_INSTANT_FEE_BPS": {
+          "min": 5430,
+          "max": 5430,
+          "avg": 5430,
+          "median": 5430,
+          "count": 1
+        },
+        "pauseOperation": {
+          "min": 65473,
+          "max": 65473,
+          "avg": 65473,
+          "median": 65473,
+          "count": 1
+        },
+        "redeemInstant": {
+          "min": 283671,
+          "max": 295959,
+          "avg": 285723,
+          "median": 283671,
+          "count": 6
+        },
+        "redeemRequest": {
+          "min": 255981,
+          "max": 275941,
+          "avg": 257516,
+          "median": 255981,
+          "count": 13
+        },
+        "rejectRequest": {
+          "min": 114410,
+          "max": 114410,
+          "avg": 114410,
+          "median": 114410,
+          "count": 2
+        },
+        "setInstantDailyLimitWad": {
+          "min": 47205,
+          "max": 47205,
+          "avg": 47205,
+          "median": 47205,
+          "count": 1
+        },
+        "setInstantFeeBps": {
+          "min": 47125,
+          "max": 47125,
+          "avg": 47125,
+          "median": 47125,
+          "count": 1
+        },
+        "supportedOperations": {
+          "min": 6429,
+          "max": 6429,
+          "avg": 6429,
+          "median": 6429,
+          "count": 1
+        },
+        "tokensProvider": {
+          "min": 7615,
+          "max": 7615,
+          "avg": 7615,
+          "median": 7615,
+          "count": 3
+        },
+        "unpauseOperation": {
+          "min": 43606,
+          "max": 43606,
+          "avg": 43606,
+          "median": 43606,
+          "count": 1
+        }
+      }
+    },
+    "test/helpers/PlatformHandler.sol:PlatformHandler": {
+      "sourceName": "test/helpers/PlatformHandler.sol",
+      "contractName": "PlatformHandler",
+      "proxyChain": [],
+      "deployment": {
+        "min": 3567702,
+        "max": 3567702,
+        "avg": 3567702,
+        "median": 3567702,
+        "count": 2,
+        "runtimeSize": 15735
+      },
+      "functions": {
+        "approveDepositRequest": {
+          "min": 7793,
+          "max": 260531,
+          "avg": 56404,
+          "median": 7793,
+          "count": 19
+        },
+        "approveRedeemRequest": {
+          "min": 7728,
+          "max": 7728,
+          "avg": 7728,
+          "median": 7728,
+          "count": 8
+        },
+        "cancelDepositRequest": {
+          "min": 7793,
+          "max": 136701,
+          "avg": 38991,
+          "median": 7793,
+          "count": 13
+        },
+        "dailyLimitRejections": {
+          "min": 2493,
+          "max": 2493,
+          "avg": 2493,
+          "median": 2493,
+          "count": 1
+        },
+        "depositInstant": {
+          "min": 192937,
+          "max": 434771,
+          "avg": 263027,
+          "median": 219158,
+          "count": 52
+        },
+        "depositInstantUsdt": {
+          "min": 220196,
+          "max": 307020,
+          "avg": 285082,
+          "median": 289920,
+          "count": 16
+        },
+        "depositRequest": {
+          "min": 308039,
+          "max": 321007,
+          "avg": 314523,
+          "median": 314523,
+          "count": 2
+        },
+        "depositRequestCount": {
+          "min": 2508,
+          "max": 2508,
+          "avg": 2508,
+          "median": 2508,
+          "count": 2
+        },
+        "depositRequestUsdt": {
+          "min": 63378,
+          "max": 379626,
+          "avg": 184540,
+          "median": 96576,
+          "count": 8
+        },
+        "depositSpentPerDay": {
+          "min": 2821,
+          "max": 2821,
+          "avg": 2821,
+          "median": 2821,
+          "count": 2
+        },
+        "moneyMovingCalls": {
+          "min": 2470,
+          "max": 2470,
+          "avg": 2470,
+          "median": 2470,
+          "count": 1
+        },
+        "passTime": {
+          "min": 78081,
+          "max": 123568,
+          "avg": 90054,
+          "median": 88801,
+          "count": 101
+        },
+        "pendingDepositEscrowTokens": {
+          "min": 2839,
+          "max": 2839,
+          "avg": 2839,
+          "median": 2839,
+          "count": 2
+        },
+        "pendingRedemptionEscrowWad": {
+          "min": 2507,
+          "max": 2507,
+          "avg": 2507,
+          "median": 2507,
+          "count": 1
+        },
+        "redeemInstant": {
+          "min": 19410,
+          "max": 336835,
+          "avg": 64957,
+          "median": 74670,
+          "count": 25
+        },
+        "redeemRequest": {
+          "min": 19346,
+          "max": 330803,
+          "avg": 43304,
+          "median": 19346,
+          "count": 13
+        },
+        "redemptionRequestCount": {
+          "min": 2506,
+          "max": 2506,
+          "avg": 2506,
+          "median": 2506,
+          "count": 1
+        },
+        "redemptionSpentPerDay": {
+          "min": 2823,
+          "max": 2823,
+          "avg": 2823,
+          "median": 2823,
+          "count": 1
+        },
+        "rejectRedeemRequest": {
+          "min": 7793,
+          "max": 155873,
+          "avg": 15587,
+          "median": 7793,
+          "count": 19
+        },
+        "successfulCalls": {
+          "min": 2514,
+          "max": 2514,
+          "avg": 2514,
+          "median": 2514,
+          "count": 2
+        },
+        "supplyCapRejections": {
+          "min": 2515,
+          "max": 2515,
+          "avg": 2515,
+          "median": 2515,
+          "count": 1
+        },
+        "sweepBlockedRefund": {
+          "min": 157726,
+          "max": 157726,
+          "avg": 157726,
+          "median": 157726,
+          "count": 1
+        },
+        "toggleBlacklist": {
+          "min": 64853,
+          "max": 130311,
+          "avg": 88221,
+          "median": 96111,
+          "count": 27
+        },
+        "toggleStablecoinBlock": {
+          "min": 62431,
+          "max": 84399,
+          "avg": 75680,
+          "median": 84399,
+          "count": 7
+        },
+        "toggleTransferPause": {
+          "min": 61584,
+          "max": 92996,
+          "avg": 80687,
+          "median": 77290,
+          "count": 14
+        },
+        "totalCalls": {
+          "min": 2537,
+          "max": 2537,
+          "avg": 2537,
+          "median": 2537,
+          "count": 6
+        }
+      }
+    }
+  }
+}

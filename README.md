@@ -1,57 +1,104 @@
-# Sample Hardhat 3 Project (`node:test` and `viem`)
+# Whitelabel fungible RWA platform
 
-This project showcases a Hardhat 3 project using the native Node.js test runner (`node:test`) and the `viem` library for Ethereum interactions.
+A template repository for tokenising fungible real-world assets — bonds, treasury products
+and similar NAV-priced instruments. The deliverable is the repository: a client deployment
+is a fork of it, with its own parameters and its own thin product contract.
 
-To learn more about Hardhat 3, please visit the [Getting Started guide](https://hardhat.org/docs/getting-started#getting-started-with-hardhat-3). To share your feedback, join our [Hardhat 3](https://hardhat.org/hardhat3-telegram-group) Telegram group or [open an issue](https://github.com/NomicFoundation/hardhat/issues/new) in our GitHub issue tracker.
+Clean-room implementation on OpenZeppelin 5.6.1, Hardhat 3 and viem, solc 0.8.36.
 
-## Project Overview
+**Read [`docs/TRUST-MODEL.md`](docs/TRUST-MODEL.md) before deploying anything.** This
+platform is not trust-minimised, and that document is where the residual powers are
+inventoried and the blast radius of a key compromise is quantified.
 
-This example project includes:
+## What is here
 
-- A simple Hardhat configuration file.
-- Foundry-compatible Solidity unit tests.
-- TypeScript integration tests using [`node:test`](nodejs.org/api/test.html), the new Node.js native test runner, and [`viem`](https://viem.sh/).
-- Examples demonstrating how to connect to different types of networks, including locally simulating OP mainnet.
-
-## Usage
-
-### Running Tests
-
-To run all the tests in the project, execute the following command:
-
-```shell
-npx hardhat test
+```
+contracts/
+  access/       AccessRegistry (DefaultAdminRules + Enumerable), role ids, registry mixin
+  compliance/   ComplianceRegistry — blacklist, greenlist, sanctions oracle
+  oracle/       AdminNavAggregator (AggregatorV3-compatible) + DataFeed price policy
+  pause/        per-operation pause switches
+  token/        RwaToken — ERC-20 + 2612 + 165 + 7943
+  vaults/       ManageableVault, DepositVault, RedemptionVault
+  products/     the per-client contract — a name and a symbol, nothing else
+  libraries/    DecimalsConverter
+  mocks/        hostile and awkward tokens, a misbehaving sanctions oracle
+  testers/      harnesses that make internal branches reachable
+scripts/
+  config.ts     THE file a fork edits
+  deploy.ts     deployment + the Safe grant batch
+  verify-deployment.ts   role and configuration audit
+  upgrade.ts    storage-layout validation + timelock calldata
+docs/
+  TRUST-MODEL.md   privileges, blast radius, accepted residual risks, deviations
+  FORKING.md       onboarding checklist, sizing rules, the handover runbook
+  ACCEPTANCE.md    every acceptance criterion mapped to the test that proves it
 ```
 
-You can also selectively run the Solidity or `node:test` tests:
+## Design in one page
 
-```shell
-npx hardhat test solidity
-npx hardhat test nodejs
+**Issuance and redemption are separate contracts.** `DepositVault` holds `MINTER_ROLE` and
+never `BURNER_ROLE`; `RedemptionVault` is the mirror. A bug on one side cannot undo the
+other, and deployment verification asserts both the positive and the negative.
+
+**One registry holds every privilege**, split into an operational tier the client multisig
+controls outright and a critical tier only a `TimelockController` can touch. The role
+hierarchy is written once at initialisation and there is no `setRoleAdmin` to re-point it.
+
+**Compliance is one replaceable module.** Blacklist status is a mapping rather than a role,
+because `AccessControl` roles are always self-renounceable and a prohibition its subject
+can lift is not a prohibition.
+
+**Prices arrive through an adapter.** The vaults depend only on `IDataFeed`, so the bundled
+admin-posted aggregator can be swapped for a Chainlink feed without touching a vault. Three
+independent constraints bound a compromised NAV key: a per-update deviation cap, a
+cooldown, and absolute hard bounds.
+
+**Fail closed on entry, fail open on exit.** Every guardrail blocks new business. None of
+them may strand an unresolved request: `rejectRequest` and `cancelRequest` require no price
+and are not gated by any pause, and the token exposes a single-use privileged refund path
+so a transfer pause or a blacklist cannot trap escrow. Sanctions are the one control that
+still applies.
+
+## Getting started
+
+```bash
+pnpm install
+pnpm build
+pnpm test
+pnpm deploy:local     # full stack on an in-memory chain, handover included
 ```
 
-### Make a deployment to Sepolia
+`pnpm deploy:local` deploys everything paused, replays the role-grant batch, waits out the
+timelock for the one critical grant, verifies the wiring, posts NAV, unpauses, and runs a
+mint → redeem smoke test. That sequence is the production runbook, minus the multisig.
 
-This project includes an example Ignition module to deploy the contract. You can deploy this module to a locally simulated chain or to Sepolia.
+## Commands
 
-To run the deployment to a local chain:
+| Command | What it does |
+| --- | --- |
+| `pnpm test` | Solidity and TypeScript suites |
+| `pnpm coverage` | line coverage (Hardhat) |
+| `FOUNDRY_PROFILE=coverage pnpm coverage:branch` | branch coverage (Foundry — see below) |
+| `pnpm lint` / `pnpm slither` | solhint / static analysis |
+| `pnpm size` | EIP-170 check on the production profile |
+| `pnpm gas` | gas snapshot |
+| `pnpm deploy:local` | local bring-up |
+| `pnpm verify-deployment` | audit a deployment on a persistent network |
 
-```shell
-npx hardhat ignition deploy ignition/modules/Counter.ts
-```
+**Foundry is a development-only dependency.** Hardhat 3 reports line and statement coverage
+but emits no branch data, and `crytic-compile` cannot read its build-info layout — so
+Foundry supplies the branch metric and the frontend Slither compiles through. It is not
+part of the production toolchain, and `forge test` is not a gate.
 
-To run the deployment to Sepolia, you need an account with funds to send the transaction. The provided Hardhat configuration includes a Configuration Variable called `SEPOLIA_PRIVATE_KEY`, which you can use to set the private key of the account you want to use.
+## Forking
 
-You can set the `SEPOLIA_PRIVATE_KEY` variable using the `hardhat-keystore` plugin or by setting it as an environment variable.
+Start with [`docs/FORKING.md`](docs/FORKING.md). The short version: edit
+`scripts/config.ts`, copy `contracts/products/wbond/` and change the name and symbol, and
+leave the core contracts alone. If you find yourself editing `contracts/access`,
+`contracts/vaults` or `contracts/token` during onboarding, check the three intended
+extension points first.
 
-To set the `SEPOLIA_PRIVATE_KEY` config variable using `hardhat-keystore`:
+## Licence
 
-```shell
-npx hardhat keystore set SEPOLIA_PRIVATE_KEY
-```
-
-After setting the variable, you can run the deployment with the Sepolia network:
-
-```shell
-npx hardhat ignition deploy --network sepolia ignition/modules/Counter.ts
-```
+`UNLICENSED` — proprietary, pending a separate business decision.

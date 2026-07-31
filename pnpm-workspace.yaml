@@ -1,2 +1,20 @@
 allowBuilds:
   esbuild: true
+  keccak: true
+  secp256k1: true
+
+# Transitive DEV-ONLY advisories, all reaching the tree through @nomicfoundation
+# packages. No production contract is exposed — nothing here ships on-chain — but these
+# execute in CI against untrusted pull-request content, which is reason enough to pin
+# rather than wait for the upstream bumps.
+#
+# Revisit when the toolbox updates its own dependencies; an override that has become
+# redundant is worth removing rather than carrying forever.
+overrides:
+  undici: '>=6.27.0'
+  lodash-es: '>=4.17.24'
+  adm-zip: '>=0.6.0'
+
+# NOT pinned: `elliptic` (low, GHSA advisory names >=6.6.2 as patched — no such version is
+# published yet). Reached only through @openzeppelin/hardhat-upgrades, i.e. deploy tooling,
+# never on-chain. Pin it as soon as 6.6.2 ships.

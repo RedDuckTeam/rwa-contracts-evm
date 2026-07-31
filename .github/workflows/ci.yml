@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # Development-only. Hardhat 3 / EDR reports line and statement coverage but emits no
+      # BRANCH data, so the branch gate is measured by Foundry. It is also what Slither
+      # compiles through: crytic-compile cannot parse Hardhat 3's build-info layout.
+      - uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint (solhint)
+        run: pnpm lint
+
+      # A pinned fuzz seed makes a failure reproducible. Without it a red run cannot be
+      # re-run locally, and the temptation is to re-run in CI until it goes green — which
+      # is how a real failure gets waved through.
+      - name: Test
+        run: FOUNDRY_FUZZ_SEED=1 pnpm test
+
+      - name: Line coverage (hardhat)
+        run: pnpm coverage
+
+      - name: Branch coverage (forge)
+        run: FOUNDRY_PROFILE=coverage FOUNDRY_FUZZ_SEED=1 pnpm coverage:branch
+
+      # EIP-170 is enforced here and nowhere else: the dev networks run unoptimized
+      # bytecode and allow oversized contracts so coverage stays accurate.
+      - name: Contract sizes (production profile)
+        run: pnpm size
+
+      - name: Gas snapshot (informational)
+        run: pnpm gas || true
+
+      - name: Local deployment and handover
+        run: pnpm deploy:local
+
+  slither:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Slither
+        run: pip install slither-analyzer
+
+      # Must report zero. Every accepted finding is suppressed at its call site with a
+      # `slither-disable-next-line` directive and a written justification directly above
+      # it — see contracts/vaults/RedemptionVault.sol for the pattern.
+      - name: Run Slither
+        run: pnpm slither

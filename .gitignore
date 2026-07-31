@@ -13,6 +13,10 @@
 # Hardhat compilation (v2) support directory
 /cache
 
+# Foundry (development-only, used for branch coverage)
+/forge-out
+/cache_forge
+
 # Typechain output
 /types
 
@@ -24,10 +28,21 @@
 # Hardhat coverage reports
 /coverage
 
-# Gas snapshot files
-/.gas-snapshot
-
 # Snapshot cheatcodes output
 /snapshots
 
+# NOTE: `.openzeppelin/` and `gas-snapshot.json` are deliberately NOT ignored.
+# The former is the source of truth for every proxy deployment and upgrade;
+# the latter is the committed gas baseline.
+
 .omc
+
+# Ralph loop bookkeeping, not part of the template
+/progress.txt
+
+# Foundry coverage output
+/lcov.info
+
+# Local EDR deployment output (ephemeral; real networks are committed per fork)
+/deployments/hardhatMainnet/
+/deployments/hardhatOp/

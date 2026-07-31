@@ -1,0 +1,7 @@
+{
+  "compile_force_framework": "foundry",
+  "filter_paths": "node_modules|contracts/mocks|contracts/testers|contracts/deps|test/",
+  "exclude_informational": true,
+  "exclude_low": true,
+  "exclude_dependencies": true
+}

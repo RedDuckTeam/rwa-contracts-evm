@@ -3,9 +3,15 @@
     "lib": ["es2023"],
     "module": "node20",
     "target": "es2023",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
     "outDir": "dist",
     "types": ["node"],
     "verbatimModuleSyntax": true
-  }
+  },
+  // `artifacts/` is NOT excluded: Hardhat writes the generated contract type
+  // declarations there, and without them `viem` contract instances degrade to an
+  // untyped index signature.
+  "exclude": ["node_modules", "dist", "cache", "forge-out"]
 }
