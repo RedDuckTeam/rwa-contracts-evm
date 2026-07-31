@@ -1,0 +1,122 @@
+{
+  "version": "1.0",
+  "chainId": "11155111",
+  "meta": {
+    "name": "RWA platform — role grants",
+    "description": "Execute as the client multisig. The final entry SCHEDULES a critical grant; return after the timelock delay to execute it, then run verify-deployment, then unpause."
+  },
+  "transactions": [
+    {
+      "to": "0x13652E7D99eafAF2D634Bcb96c4B5E5067b0c932",
+      "value": "0",
+      "data": "0x2f2ff15db7e285e10128c01b662bfbd4315d1577eb5d8f1c09df699a3f0b97c10b20ef3d00000000000000000000000042cb1daf16ad98ddf315288ee702eef256d44ec9",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "MINTER -> DepositVault"
+    },
+    {
+      "to": "0x13652E7D99eafAF2D634Bcb96c4B5E5067b0c932",
+      "value": "0",
+      "data": "0x2f2ff15ddc12367eca658f65922ee40436ffdef52be901bf14a05fe501a40985b7d883eb0000000000000000000000005d4940e7ababe91124b20bf59c7c97cebb8e8e36",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "BURNER -> RedemptionVault"
+    },
+    {
+      "to": "0x13652E7D99eafAF2D634Bcb96c4B5E5067b0c932",
+      "value": "0",
+      "data": "0x2f2ff15d004b6b6ec159988d3273e49a521aa61da9e11b78c40147de88319ceda7ffcaa6000000000000000000000000731c1d84ec40de8ed7c845e79975d27199c2eb5c",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "COMPLIANCE_ADMIN"
+    },
+    {
+      "to": "0x13652E7D99eafAF2D634Bcb96c4B5E5067b0c932",
+      "value": "0",
+      "data": "0x2f2ff15dfb9103039449d2000ef372d7b214bb44cb019f21e5cd1ec092fd074b3ad2a8fe000000000000000000000000731c1d84ec40de8ed7c845e79975d27199c2eb5c",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "GREENLIST_OPERATOR"
+    },
+    {
+      "to": "0x13652E7D99eafAF2D634Bcb96c4B5E5067b0c932",
+      "value": "0",
+      "data": "0x2f2ff15d2f288b47d09ed8952fa837f6530e12b30b5ead92655898c559f6a8c863cc98ac000000000000000000000000731c1d84ec40de8ed7c845e79975d27199c2eb5c",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "BLACKLIST_OPERATOR"
+    },
+    {
+      "to": "0x13652E7D99eafAF2D634Bcb96c4B5E5067b0c932",
+      "value": "0",
+      "data": "0x2f2ff15df9d551412fa1020427fd954a9fe03306c64953ec5d627405e665990748cb46790000000000000000000000007df6f896ad739690ad3dbe07d9215088027fd9de",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "REQUEST_OPERATOR"
+    },
+    {
+      "to": "0x13652E7D99eafAF2D634Bcb96c4B5E5067b0c932",
+      "value": "0",
+      "data": "0x2f2ff15d5bbfec6d99dd785dae87ef32ce4e410242beb9ba571a425c9d383730a8ccba29000000000000000000000000731c1d84ec40de8ed7c845e79975d27199c2eb5c",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "VAULT_ADMIN"
+    },
+    {
+      "to": "0x13652E7D99eafAF2D634Bcb96c4B5E5067b0c932",
+      "value": "0",
+      "data": "0x2f2ff15d5eaffdbfc1a2707cebbdd2c2956b44db2ea87dbaa12d4018a29671afd7c6a202000000000000000000000000731c1d84ec40de8ed7c845e79975d27199c2eb5c",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "FEED_OPERATOR"
+    },
+    {
+      "to": "0x13652E7D99eafAF2D634Bcb96c4B5E5067b0c932",
+      "value": "0",
+      "data": "0x2f2ff15d557a749af84daab7bde9f6fd90cfcb1cbb3764ad4db9b24976ce6d6bcdbdafcc000000000000000000000000731c1d84ec40de8ed7c845e79975d27199c2eb5c",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "FEED_ADMIN"
+    },
+    {
+      "to": "0x13652E7D99eafAF2D634Bcb96c4B5E5067b0c932",
+      "value": "0",
+      "data": "0x2f2ff15da5ac1abc5a1d3fb7edeb55fdaa9463f51d638b51ae28ce1c922ed150412c0c1b0000000000000000000000007df6f896ad739690ad3dbe07d9215088027fd9de",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "PAUSER"
+    },
+    {
+      "to": "0x13652E7D99eafAF2D634Bcb96c4B5E5067b0c932",
+      "value": "0",
+      "data": "0x2f2ff15d8e5a8a8c3286b1ea1e104588628a429d6b07162893a4be252c48259588e1dc91000000000000000000000000731c1d84ec40de8ed7c845e79975d27199c2eb5c",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "UNPAUSER"
+    },
+    {
+      "to": "0x42CB1dAF16ad98Ddf315288Ee702eef256d44EC9",
+      "value": "0",
+      "data": "0x8656d4cf000000000000000000000000cd169a9900a0f24dc1ec4772ab56614ecac980ce0000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "addPaymentToken(0xcd169A9900A0F24dc1Ec4772ab56614EcAC980CE) -> DepositVault"
+    },
+    {
+      "to": "0x5D4940E7Ababe91124B20Bf59C7C97CebB8e8E36",
+      "value": "0",
+      "data": "0x8656d4cf000000000000000000000000cd169a9900a0f24dc1ec4772ab56614ecac980ce0000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "addPaymentToken(0xcd169A9900A0F24dc1Ec4772ab56614EcAC980CE) -> RedemptionVault"
+    },
+    {
+      "to": "0x27a7257c7617AE080C010cE592B96bfa2574EAC1",
+      "value": "0",
+      "data": "0x01d5062a00000000000000000000000013652e7d99eafaf2d634bcb96c4b5e5067b0c932000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000012c00000000000000000000000000000000000000000000000000000000000000442f2ff15d97c9bae496e3b09009db9ad3ab81c724444910b3fefc6a1d08c78fdcd5d3f5900000000000000000000000005d4940e7ababe91124b20bf59c7c97cebb8e8e3600000000000000000000000000000000000000000000000000000000",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "SCHEDULE REFUND_VAULT -> RedemptionVault (critical; execute after the timelock delay)"
+    }
+  ]
+}

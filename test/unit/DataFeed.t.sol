@@ -205,9 +205,6 @@ contract DataFeedTest is PlatformFixture {
     }
 
     function test_TimelockAdjustsPolicy() public {
-        _executeViaTimelock(address(dataFeed), abi.encodeCall(dataFeed.setHealthyDiff, (1 days)));
-        assertEq(dataFeed.healthyDiff(), 1 days);
-
         _executeViaTimelock(
             address(dataFeed),
             abi.encodeCall(dataFeed.setPriceBounds, (0.1e18, 100e18))
@@ -217,12 +214,54 @@ contract DataFeedTest is PlatformFixture {
         assertEq(maxPrice, 100e18);
     }
 
+    /// @dev The staleness window is the one feed knob NOT behind the timelock: it must track
+    ///      the real NAV posting cadence, and the role that sets it already decides the answer
+    ///      outright through `setRoundData`. See the note on {DataFeed.setHealthyDiff}.
+    function test_FeedAdminAdjustsTheStalenessWindow() public {
+        vm.expectEmit(false, false, false, true, address(dataFeed));
+        emit DataFeed.HealthyDiffUpdated(HEALTHY_DIFF, 1 days);
+        vm.prank(feedAdmin);
+        dataFeed.setHealthyDiff(1 days);
+
+        assertEq(dataFeed.healthyDiff(), 1 days);
+
+        // The window it reports is the window it enforces: a price one second past the new
+        // bound is refused, where the old bound would still have accepted it.
+        _useMockAggregator();
+        uint256 postedAt = block.timestamp;
+        mockFeed.setAnswerWithTimestamp(INITIAL_NAV, postedAt);
+
+        vm.warp(postedAt + 1 days);
+        assertEq(dataFeed.getPrice(), 1e18);
+
+        vm.warp(postedAt + 1 days + 1);
+        vm.expectRevert(abi.encodeWithSelector(DataFeed.StalePrice.selector, postedAt, 1 days));
+        dataFeed.getPrice();
+    }
+
+    /// @dev The timelock holds CRITICAL_CONFIG and every other setter here, so asserting it is
+    ///      refused is what distinguishes "moved to FEED_ADMIN" from "reachable by both".
+    function test_RevertWhen_StalenessWindowIsChangedByTheTimelock() public {
+        vm.prank(address(timelock));
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                WithAccessRegistry.MissingRole.selector,
+                Roles.FEED_ADMIN_ROLE,
+                address(timelock)
+            )
+        );
+        dataFeed.setHealthyDiff(1 days);
+
+        assertEq(dataFeed.healthyDiff(), HEALTHY_DIFF);
+    }
+
     function test_RevertWhen_PolicyIsChangedOutsideTheTimelock() public {
+        // `admin` holds neither role, so each call names the role it actually wanted.
         vm.prank(admin);
         vm.expectRevert(
             abi.encodeWithSelector(
                 WithAccessRegistry.MissingRole.selector,
-                Roles.CRITICAL_CONFIG_ROLE,
+                Roles.FEED_ADMIN_ROLE,
                 admin
             )
         );
@@ -242,13 +281,23 @@ contract DataFeedTest is PlatformFixture {
     function test_RevertWhen_PolicyWouldExceedItsCodedCap() public {
         uint256 maxHealthyDiff = dataFeed.MAX_HEALTHY_DIFF();
 
-        vm.startPrank(address(timelock));
+        // The cap holds against the role that CAN set it — checked from the timelock it would
+        // pass on the missing role and prove nothing about the bound.
+        vm.startPrank(feedAdmin);
 
         vm.expectRevert(DataFeed.ConfigOutOfRange.selector);
         dataFeed.setHealthyDiff(maxHealthyDiff + 1);
 
         vm.expectRevert(DataFeed.ConfigOutOfRange.selector);
         dataFeed.setHealthyDiff(0);
+
+        // ...and the cap itself is reachable, so "30 days" is a usable value and not a bound
+        // that rejects everything up to it.
+        dataFeed.setHealthyDiff(maxHealthyDiff);
+        assertEq(dataFeed.healthyDiff(), maxHealthyDiff);
+
+        vm.stopPrank();
+        vm.startPrank(address(timelock));
 
         vm.expectRevert(DataFeed.ConfigOutOfRange.selector);
         dataFeed.setPriceBounds(0, 1e18);

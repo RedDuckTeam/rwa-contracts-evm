@@ -4,6 +4,7 @@ pragma solidity 0.8.36;
 import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts/proxy/utils/UUPSUpgradeable.sol";
 
+import {Roles} from "../access/Roles.sol";
 import {WithAccessRegistry} from "../access/WithAccessRegistry.sol";
 import {DecimalsConverter} from "../libraries/DecimalsConverter.sol";
 import {AggregatorV3Interface} from "../interfaces/AggregatorV3Interface.sol";
@@ -98,12 +99,31 @@ contract DataFeed is Initializable, WithAccessRegistry, UUPSUpgradeable, IDataFe
         }
     }
 
+    /// @dev Overridden alongside the aggregator's own getter by a fork that namespaces roles
+    ///      per product; see {WithAccessRegistry}.
+    function feedAdminRole() public view virtual returns (bytes32) {
+        return Roles.FEED_ADMIN_ROLE;
+    }
+
     /// @dev The adapter swap: replaces the source of every price the platform trades on.
     function setAggregator(address newAggregator) external onlyRegistryRole(criticalConfigRole()) {
         _setAggregator(_dataFeedStorage(), newAggregator);
     }
 
-    function setHealthyDiff(uint256 newHealthyDiff) external onlyRegistryRole(criticalConfigRole()) {
+    /// @dev FEED_ADMIN and not the timelock, unlike every other knob on this contract. The
+    ///      reasoning is that this role already decides the ANSWER: `setRoundData` posts any
+    ///      value inside the hard bounds immediately, bypassing both the deviation cap and the
+    ///      cooldown. A holder who wanted the vaults to trade on a price of their choosing
+    ///      would post one, not wait for an old one to keep being accepted — so timelocking
+    ///      the staleness window bought little, while making the one parameter that must track
+    ///      the real NAV posting cadence cost a full delay to correct.
+    ///
+    ///      What stays behind the timelock is everything that BOUNDS the damage rather than
+    ///      timing it: the hard bounds, the price bounds, the deviation cap, the cooldown and
+    ///      the aggregator pointer. The compensating control here is unchanged — pausing
+    ///      `OP_ORACLE_UPDATE` stops both posting paths instantly, and pausing the vault
+    ///      operations stops trading on a price already posted.
+    function setHealthyDiff(uint256 newHealthyDiff) external onlyRegistryRole(feedAdminRole()) {
         _setHealthyDiff(_dataFeedStorage(), newHealthyDiff);
     }
 

@@ -11,7 +11,7 @@
  */
 import hre from "hardhat";
 
-import { readDeploymentRecord } from "./lib/deployment.js";
+import { readDeploymentRecordForChain } from "./lib/deployment.js";
 import { printReport, verifyDeployment } from "./lib/verify.js";
 
 const log = (message: string) => console.log(message);
@@ -35,14 +35,17 @@ if (EPHEMERAL.test(connection.networkName)) {
   process.exit(1);
 }
 
-const { addresses, holders, config } = readDeploymentRecord(connection.networkName);
+const publicClient = await connection.viem.getPublicClient();
+const { addresses, holders, config } = readDeploymentRecordForChain(
+  connection.networkName,
+  await publicClient.getChainId(),
+);
 
 log(`network:  ${addresses.network}`);
 log(`registry: ${addresses.accessRegistry}`);
 log(`expecting operations to be ${expectPaused ? "PAUSED (pre-unpause audit)" : "LIVE"}`);
 log("");
 
-const publicClient = await connection.viem.getPublicClient();
 const code = await publicClient.getCode({ address: addresses.accessRegistry });
 if (code === undefined || code === "0x") {
   log(`No contract at ${addresses.accessRegistry} on ${connection.networkName}.`);

@@ -27,13 +27,19 @@ contract AccessRegistry is
     UUPSUpgradeable,
     IAccessRegistry
 {
-    /// @dev Matched to the TimelockController's minDelay: if they differed, the shorter one
-    ///      would set the real reaction window.
+    /// @dev The PRODUCTION value, and the one docs/TRUST-MODEL.md quantifies the blast radius
+    ///      against. It is a default rather than a hard rule only so that a testnet can run
+    ///      the same bring-up in minutes instead of days; `verify-deployment` reports any
+    ///      deployment below it, and will not pass one silently.
     uint48 public constant DEFAULT_ADMIN_TRANSFER_DELAY = 48 hours;
 
     error CriticalRoleNotRenounceable(bytes32 role);
 
     error ZeroAddress();
+
+    /// @dev A zero delay would make the two-step admin transfer a one-step one, which is the
+    ///      whole property {AccessControlDefaultAdminRules} exists to provide.
+    error ZeroAdminTransferDelay();
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -43,10 +49,22 @@ contract AccessRegistry is
     /// @dev Fixes the role hierarchy for the lifetime of the deployment. There is no public
     ///      `setRoleAdmin`; a DEFAULT_ADMIN that could re-point a critical role's admin at
     ///      itself would route around the timelock entirely.
-    function initialize(address initialDefaultAdmin, address timelock) external initializer {
+    ///
+    /// @param adminTransferDelay MUST equal the TimelockController's `minDelay`: if they
+    ///        differed, the shorter one would set the real reaction window. Pass
+    ///        {DEFAULT_ADMIN_TRANSFER_DELAY} in production. It is a parameter rather than the
+    ///        constant so a testnet can deploy the same bytecode with a delay short enough to
+    ///        rehearse the handover; `verify-deployment` asserts the equality on-chain and
+    ///        flags anything below the production floor.
+    function initialize(
+        address initialDefaultAdmin,
+        address timelock,
+        uint48 adminTransferDelay
+    ) external initializer {
         if (initialDefaultAdmin == address(0) || timelock == address(0)) revert ZeroAddress();
+        if (adminTransferDelay == 0) revert ZeroAdminTransferDelay();
 
-        __AccessControlDefaultAdminRules_init(DEFAULT_ADMIN_TRANSFER_DELAY, initialDefaultAdmin);
+        __AccessControlDefaultAdminRules_init(adminTransferDelay, initialDefaultAdmin);
         __AccessControlEnumerable_init();
 
         _setRoleAdmin(Roles.TIMELOCK_ADMIN_ROLE, Roles.TIMELOCK_ADMIN_ROLE);

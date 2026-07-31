@@ -27,11 +27,16 @@ contracts/
 scripts/
   config.ts     THE file a fork edits
   deploy.ts     deployment + the Safe grant batch
+  handover.ts   stage 2 end to end, for an admin whose key is available locally
   verify-deployment.ts   role and configuration audit
+  verify-etherscan.ts    publishes sources for every contract in a deployment
+  recover-deployment.ts  rebuilds a lost deployment record from the chain
+  accounts.ts   the configured accounts, balances, and what to put in config.ts
   upgrade.ts    storage-layout validation + timelock calldata
 docs/
   TRUST-MODEL.md   privileges, blast radius, accepted residual risks, deviations
   FORKING.md       onboarding checklist, sizing rules, the handover runbook
+  SEPOLIA.md       the same runbook with testnet values filled in and stage 2 automated
   ACCEPTANCE.md    every acceptance criterion mapped to the test that proves it
 ```
 
@@ -84,7 +89,12 @@ mint → redeem smoke test. That sequence is the production runbook, minus the m
 | `pnpm size` | EIP-170 check on the production profile |
 | `pnpm gas` | gas snapshot |
 | `pnpm deploy:local` | local bring-up |
-| `pnpm verify-deployment` | audit a deployment on a persistent network |
+| `pnpm accounts --network <n>` | configured accounts and balances |
+| `pnpm deploy:sepolia` | deploy to Sepolia — see [`docs/SEPOLIA.md`](docs/SEPOLIA.md) |
+| `pnpm handover --network <n>` | complete stage 2 of the handover |
+| `pnpm verify-deployment --network <n>` | audit a deployment on a persistent network |
+| `pnpm recover-deployment --network <n>` | rebuild a lost `deployments/<n>/` from the chain |
+| `pnpm verify:etherscan --network <n>` | publish sources for every deployed contract |
 
 **Foundry is a development-only dependency.** Hardhat 3 reports line and statement coverage
 but emits no branch data, and `crytic-compile` cannot read its build-info layout — so

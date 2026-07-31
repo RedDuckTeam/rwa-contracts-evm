@@ -46,3 +46,6 @@
 # Local EDR deployment output (ephemeral; real networks are committed per fork)
 /deployments/hardhatMainnet/
 /deployments/hardhatOp/
+
+# Regenerated from deployment.json on every `verify:etherscan` run
+/deployments/*/constructor-args/

@@ -77,7 +77,12 @@ abstract contract PlatformFixture is Test {
             address(
                 new ERC1967Proxy(
                     address(impl),
-                    abi.encodeCall(AccessRegistry.initialize, (admin, address(timelock)))
+                    // The registry's admin-transfer delay and the timelock's minDelay are the
+                    // same number by construction here, which is the production wiring.
+                    abi.encodeCall(
+                        AccessRegistry.initialize,
+                        (admin, address(timelock), uint48(TIMELOCK_MIN_DELAY))
+                    )
                 )
             )
         );

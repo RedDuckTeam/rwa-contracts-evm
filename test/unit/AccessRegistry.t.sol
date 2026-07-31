@@ -66,10 +66,64 @@ contract AccessRegistryTest is PlatformFixture {
         AccessRegistry impl = new AccessRegistry();
 
         vm.expectRevert(AccessRegistry.ZeroAddress.selector);
-        _proxy(address(impl), abi.encodeCall(AccessRegistry.initialize, (address(0), address(timelock))));
+        _proxy(
+            address(impl),
+            abi.encodeCall(
+                AccessRegistry.initialize,
+                (address(0), address(timelock), uint48(TIMELOCK_MIN_DELAY))
+            )
+        );
 
         vm.expectRevert(AccessRegistry.ZeroAddress.selector);
-        _proxy(address(impl), abi.encodeCall(AccessRegistry.initialize, (admin, address(0))));
+        _proxy(
+            address(impl),
+            abi.encodeCall(
+                AccessRegistry.initialize,
+                (admin, address(0), uint48(TIMELOCK_MIN_DELAY))
+            )
+        );
+    }
+
+    /// @dev Zero would collapse the two-step admin transfer into a one-step one: OZ schedules
+    ///      the acceptance at `block.timestamp + delay` and requires it to be strictly past,
+    ///      so a compromised admin could hand the role on within a block or two rather than
+    ///      leaving the documented window for anyone to react.
+    function test_RevertWhen_InitialiseWithZeroAdminTransferDelay() public {
+        AccessRegistry impl = new AccessRegistry();
+
+        vm.expectRevert(AccessRegistry.ZeroAdminTransferDelay.selector);
+        _proxy(
+            address(impl),
+            abi.encodeCall(AccessRegistry.initialize, (admin, address(timelock), uint48(0)))
+        );
+    }
+
+    /// @dev The delay is a PARAMETER, not the constant, so a testnet can rehearse the handover
+    ///      in minutes. Asserting a non-default value proves it is actually honoured — passing
+    ///      only the production value would leave the parameter indistinguishable from the
+    ///      hard-coded constant it replaced.
+    function test_InitialiseHonoursANonDefaultAdminTransferDelay() public {
+        AccessRegistry impl = new AccessRegistry();
+        uint48 shortDelay = 10 minutes;
+        assertTrue(shortDelay != impl.DEFAULT_ADMIN_TRANSFER_DELAY());
+
+        AccessRegistry shortRegistry = AccessRegistry(
+            _proxy(
+                address(impl),
+                abi.encodeCall(
+                    AccessRegistry.initialize,
+                    (admin, address(timelock), shortDelay)
+                )
+            )
+        );
+
+        assertEq(shortRegistry.defaultAdminDelay(), shortDelay);
+
+        // And the delay it reports is the delay it enforces, not merely a stored number.
+        vm.prank(admin);
+        shortRegistry.beginDefaultAdminTransfer(bob);
+        (, uint48 schedule) = shortRegistry.pendingDefaultAdmin();
+        assertEq(schedule, uint48(block.timestamp) + shortDelay);
     }
 
     /// @dev An implementation that can still be initialised is a takeover vector: whoever
@@ -77,12 +131,12 @@ contract AccessRegistryTest is PlatformFixture {
     function test_RevertWhen_ImplementationIsInitialisedDirectly() public {
         AccessRegistry impl = new AccessRegistry();
         vm.expectRevert(Initializable.InvalidInitialization.selector);
-        impl.initialize(admin, address(timelock));
+        impl.initialize(admin, address(timelock), uint48(TIMELOCK_MIN_DELAY));
     }
 
     function test_RevertWhen_ProxyIsInitialisedTwice() public {
         vm.expectRevert(Initializable.InvalidInitialization.selector);
-        registry.initialize(admin, address(timelock));
+        registry.initialize(admin, address(timelock), uint48(TIMELOCK_MIN_DELAY));
     }
 
     function test_DefaultAdminGrantsAndRevokesOperationalRoles() public {

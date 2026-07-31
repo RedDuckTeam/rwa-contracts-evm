@@ -60,6 +60,8 @@ An attacker holding `DEFAULT_ADMIN_ROLE` can, immediately:
 - greenlist themselves;
 - move NAV to the edge of the hard bounds through `FEED_ADMIN_ROLE`, bypassing the
   deviation cap;
+- extend the staleness window to 30 days (`FEED_ADMIN_ROLE` again — see §2.2), keeping a
+  price they posted tradeable for that long;
 - drain value through instant operations, up to the daily limit.
 
 They **cannot**, without waiting out the timelock:
@@ -149,7 +151,7 @@ bricking upgrades.
 | `REQUEST_OPERATOR` | ops | `DEFAULT_ADMIN` | approve/reject requests |
 | `VAULT_ADMIN` | multisig | `DEFAULT_ADMIN` | fees, limits, minimums, waivers, token registry — all inside coded caps |
 | `FEED_OPERATOR` | NAV bot | `DEFAULT_ADMIN` | `setRoundDataSafe` (deviation + cooldown apply) |
-| `FEED_ADMIN` | multisig | `DEFAULT_ADMIN` | `setRoundData` — emergency post, bypasses deviation and cooldown, never the hard bounds |
+| `FEED_ADMIN` | multisig | `DEFAULT_ADMIN` | `setRoundData` — emergency post, bypasses deviation and cooldown, never the hard bounds; `DataFeed.setHealthyDiff` — the staleness window, capped at `MAX_HEALTHY_DIFF` = 30 days |
 | `PAUSER` | monitoring bot | `DEFAULT_ADMIN` | pause only |
 | `UNPAUSER` | multisig | `DEFAULT_ADMIN` | unpause only |
 | `MINTER` / `BURNER` | DepositVault / RedemptionVault | `DEFAULT_ADMIN` | mint / burn |
@@ -157,6 +159,22 @@ bricking upgrades.
 `PAUSER` and `UNPAUSER` are split so the hot monitoring key can only ever make the system
 safer. A single role holding both would make the circuit breaker self-resettable by
 whoever compromised it.
+
+**`setHealthyDiff` sits with `FEED_ADMIN`, not the timelock**, and is the one feed-policy
+knob that does. The reasoning is that the same role already decides the *answer*:
+`setRoundData` posts any value inside the hard bounds immediately, bypassing both the
+deviation cap and the cooldown. A compromised `FEED_ADMIN` wanting the vaults to trade on a
+price of its choosing posts one — it does not need an old price to keep being accepted. So
+timelocking the staleness window bought little, while making the single parameter that must
+track the real NAV posting cadence cost a full delay to correct — and a `healthyDiff` set
+below the posting interval takes the product down during entirely normal operation.
+
+What it does buy the attacker is *duration*: a price they posted stays tradeable for up to
+`MAX_HEALTHY_DIFF` = 30 days rather than 72 hours. The compensating control is unchanged and
+is not this parameter — pausing `OP_ORACLE_UPDATE` stops both posting paths instantly, and
+pausing the vault operations stops trading on a price already posted. Everything that
+*bounds* the damage rather than timing it stays behind the timelock: the hard bounds, the
+price bounds, the deviation cap, the cooldown and the aggregator pointer.
 
 ### 2.3 The one documented exception to "one registry holds all privileges"
 
@@ -253,7 +271,7 @@ free-option gap.
 
 ## 4. Registered deviations from the specification
 
-Five, all deliberate and all covered by tests.
+Six, all deliberate and all covered by tests.
 
 1. **Branch coverage is measured by Foundry, not Hardhat.** Hardhat 3 / EDR reports line
    and statement coverage but emits no branch data. Foundry is a development-only
@@ -271,3 +289,7 @@ Five, all deliberate and all covered by tests.
 5. **A fifth terminal request status, `Swept`, was added.** The original state list had
    four; the emergency sweep needs a distinct terminal state so a swept request can never
    be confused with an ordinary cancellation.
+6. **`DataFeed.setHealthyDiff` is held by `FEED_ADMIN` rather than `CRITICAL_CONFIG`.**
+   Reasoning in §2.2. Asserted by `test_FeedAdminAdjustsTheStalenessWindow` and by
+   `test_RevertWhen_StalenessWindowIsChangedByTheTimelock`, which exists so the change reads
+   as "moved" and not "reachable by both".

@@ -24,7 +24,7 @@ import {
   type AddressBook,
   type OperationalHolders,
 } from "./deployment.js";
-import type { PlatformConfig } from "../config.js";
+import { PRODUCTION_TIMELOCK_DELAY_SECONDS, type PlatformConfig } from "../config.js";
 
 /**
  * `NetworkConnection` is invariant in its type parameter, so one created as
@@ -33,14 +33,36 @@ import type { PlatformConfig } from "../config.js";
  */
 type AnyNetworkConnection = NetworkConnection<ChainType | string>;
 
+export interface VerificationCheck {
+  name: string;
+  ok: boolean;
+  detail?: string;
+  /**
+   * A check that FAILED but whose failure the configuration declared in advance. It is
+   * reported, it is counted, and it never turns into a PASS — it only stops gating. The single
+   * user today is the sub-48h timelock a testnet rehearsal needs.
+   */
+  waived?: boolean;
+}
+
 export interface VerificationReport {
   passed: boolean;
-  checks: { name: string; ok: boolean; detail?: string }[];
+  checks: VerificationCheck[];
+  /** Present when something failed and was waived. Never empty when present. */
+  waivers: string[];
 }
 
 export interface VerifyOptions {
   /** Expect every operation to still be paused. False once the handover has completed. */
   expectPaused: boolean;
+  /**
+   * Accept `OP_ORACLE_UPDATE` in EITHER state while `expectPaused` holds for the rest. The
+   * handover lifts that one switch before the user-facing five on purpose — a price must be
+   * postable before the product opens — so a run resumed in between legitimately finds it
+   * live. It narrows the claim about one switch and about nothing else: every operation a
+   * user can reach is still asserted paused, which is the property the gate exists for.
+   */
+  allowLiveOracleUpdate?: boolean;
   /** Expected operational role holders. Membership is asserted EXACTLY against these. */
   holders: OperationalHolders;
   /** The configuration the deployment was supposed to receive. */
@@ -75,11 +97,11 @@ const ZERO = "0x0000000000000000000000000000000000000000" as const;
  * multisig as "days until a countermeasure lands", and that number is this delay: a fork may
  * raise it, but lowering it invalidates the published risk statement.
  */
-const MIN_ACCEPTABLE_TIMELOCK_DELAY = 48n * 60n * 60n;
+const MIN_ACCEPTABLE_TIMELOCK_DELAY = PRODUCTION_TIMELOCK_DELAY_SECONDS;
 const ERC1967_IMPLEMENTATION_SLOT =
   "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc" as const;
 
-type Recorder = (name: string, ok: boolean, detail?: string) => void;
+type Recorder = (name: string, ok: boolean, detail?: string, waived?: boolean) => void;
 
 export async function verifyDeployment(
   connection: AnyNetworkConnection,
@@ -87,10 +109,15 @@ export async function verifyDeployment(
   options: VerifyOptions,
 ): Promise<VerificationReport> {
   const publicClient = await connection.viem.getPublicClient();
-  const checks: VerificationReport["checks"] = [];
+  const checks: VerificationCheck[] = [];
 
-  const record: Recorder = (name, ok, detail) => {
-    checks.push({ name, ok, ...(detail === undefined ? {} : { detail }) });
+  const record: Recorder = (name, ok, detail, waived) => {
+    checks.push({
+      name,
+      ok,
+      ...(detail === undefined ? {} : { detail }),
+      ...(waived === true && !ok ? { waived: true } : {}),
+    });
   };
 
   const readRegistry = async <T>(functionName: string, args: unknown[]): Promise<T> =>
@@ -216,10 +243,16 @@ export async function verifyDeployment(
   );
   // An ABSOLUTE floor as well: comparing only against the config would accept a fork that
   // lowered the delay in both places at once, the two values agreeing while the window shrank.
+  //
+  // `acceptShortTimelockDelay` waives the GATE, never the CHECK: the delay is still read off
+  // the chain, still compared to the same literal floor, and still printed as a failure. A
+  // testnet rehearsal declares it; a production deployment that set it would be refused by
+  // `assertConfigIsDeployable` before deploying at all.
   record(
     "timelock minDelay is at least the 48h the trust model assumes",
     minDelay >= MIN_ACCEPTABLE_TIMELOCK_DELAY,
     `${minDelay}s vs floor ${MIN_ACCEPTABLE_TIMELOCK_DELAY}s`,
+    options.config.acceptShortTimelockDelay === true,
   );
 
   const proposerRole = await readTimelock<`0x${string}`>("PROPOSER_ROLE");
@@ -282,6 +315,19 @@ export async function verifyDeployment(
       args: [opId],
     })) as boolean;
 
+    // The name states exactly what was checked. Reporting "is still paused" for a switch this
+    // run was told to accept in either state would be a check whose title claims more than its
+    // assertion — the report has to stay readable as evidence.
+    const eitherStateAccepted =
+      options.expectPaused &&
+      options.allowLiveOracleUpdate === true &&
+      opId === OP_IDS.ORACLE_UPDATE;
+
+    if (eitherStateAccepted) {
+      record(`${label} is paused or live (mid-handover, not user-facing)`, true, `paused = ${paused}`);
+      continue;
+    }
+
     record(
       options.expectPaused ? `${label} is still paused` : `${label} is live`,
       paused === options.expectPaused,
@@ -292,7 +338,12 @@ export async function verifyDeployment(
   await lintConfiguration(connection, addresses, options, record);
   await probeImplementations(connection, addresses, options, record);
 
-  return { passed: checks.every((check) => check.ok), checks };
+  const waivers = checks.filter((check) => !check.ok && check.waived === true).map((c) => c.name);
+  return {
+    passed: checks.every((check) => check.ok || check.waived === true),
+    checks,
+    waivers,
+  };
 }
 
 /**
@@ -447,7 +498,11 @@ async function probeImplementations(
   } as const;
 
   const probes: [string, Address, readonly unknown[]][] = [
-    ["AccessRegistry", addresses.accessRegistry, [addresses.admin, addresses.timelock]],
+    [
+      "AccessRegistry",
+      addresses.accessRegistry,
+      [addresses.admin, addresses.timelock, options.config.timelockDelaySeconds],
+    ],
     [
       "ComplianceRegistry",
       addresses.complianceRegistry,
@@ -527,9 +582,17 @@ async function probeImplementations(
 
 export function printReport(report: VerificationReport, log: (message: string) => void): void {
   for (const check of report.checks) {
-    const mark = check.ok ? "PASS" : "FAIL";
+    const mark = check.ok ? "PASS" : check.waived === true ? "WAIVED" : "FAIL";
     log(`  [${mark}] ${check.name}${check.detail === undefined ? "" : `  (${check.detail})`}`);
   }
   log("");
+  if (report.waivers.length > 0) {
+    // Spelled out under the result, not only inline: a green summary line above a scrolled-off
+    // WAIVED row is exactly how a declared deviation turns into a forgotten one.
+    log(`${report.waivers.length} check(s) FAILED and were waived by the configuration:`);
+    for (const name of report.waivers) log(`  - ${name}`);
+    log("This deployment does NOT meet the production trust model. Testnet only.");
+    log("");
+  }
   log(report.passed ? "VERIFICATION PASSED" : "VERIFICATION FAILED");
 }

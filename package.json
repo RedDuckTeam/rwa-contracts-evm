@@ -16,7 +16,12 @@
     "lint:fix": "solhint --fix 'contracts/**/*.sol'",
     "slither": "slither . --config-file slither.config.json",
     "deploy:local": "hardhat run scripts/deploy.ts --network hardhatMainnet --build-profile production",
+    "deploy:sepolia": "hardhat run scripts/deploy.ts --network sepolia --build-profile production",
+    "accounts": "hardhat run scripts/accounts.ts",
+    "handover": "hardhat run scripts/handover.ts --build-profile production",
+    "recover-deployment": "hardhat run scripts/recover-deployment.ts --build-profile production",
     "verify-deployment": "hardhat run scripts/verify-deployment.ts --build-profile production",
+    "verify:etherscan": "hardhat run scripts/verify-etherscan.ts --build-profile production",
     "compile": "hardhat compile",
     "clean": "hardhat clean"
   },

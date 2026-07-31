@@ -35,21 +35,32 @@ Every value lives in `scripts/config.ts` and is bounded by a constant in the con
 a typo produces a failed deployment rather than a live misconfiguration. Sizing rules for
 the values that are genuine judgement calls are in §2.
 
-- [ ] `timelockDelaySeconds` — 48h default. Lowering it lowers your reaction window;
-      see TRUST-MODEL §1.2.
+- [ ] `timelockDelaySeconds` — 48h default, and the registry's admin-transfer delay as well:
+      `AccessRegistry.initialize` takes it as a parameter and `verify-deployment` asserts the
+      two are equal on-chain. Lowering it lowers your reaction window (TRUST-MODEL §1.2), and
+      below 48h the deploy refuses to start unless `acceptShortTimelockDelay` is set next to
+      it — after which the audit reports the deviation as a WAIVED failure on every run. That
+      declaration is for testnets. Production must not set it.
 - [ ] `oracle.minAnswer` / `oracle.maxAnswer` — **read §2.1 before touching these.**
 - [ ] `oracle.minPriceWad` / `oracle.maxPriceWad` — must describe the **same band** as the
       aggregator bounds, in WAD. The two are checked against each other by
       `test_AggregatorAndFeedBoundsDescribeTheSameBand`; keep that test honest.
 - [ ] `oracle.deviationBps`, `oracle.updateCooldownSeconds` — how fast NAV may move.
 - [ ] `oracle.healthyDiffSeconds` — must exceed your NAV posting interval with room for a
-      missed post, or the feed goes stale during normal operation.
+      missed post, or the feed goes stale during normal operation, and no more than that: it
+      is how long a stale price stays tradeable. Capped at `MAX_HEALTHY_DIFF` = 30 days.
+      Unlike every other feed knob this one is held by `FEED_ADMIN`, not the timelock, so it
+      can be corrected without a delay — see TRUST-MODEL §2.2 for why that is safe here.
 - [ ] `vault.instantDailyLimitWad` — **read §2.2.**
 - [ ] `vault.instantFeeBps`, `minAmountWad`, `minFirstAmountWad`, `variationToleranceBps`,
       `maxSupplyCapWad`.
 - [ ] `compliance.sanctionsOracle` — the Chainalysis oracle for your chain, or the zero
       address to disable the gate. **Read §2.3.**
-- [ ] `compliance.greenlistEnabled` — leave `true`. Starting open is a fail-open start.
+- [ ] `compliance.greenlistEnabled` — leave `true` in production. Starting open is a
+      fail-open start. `false` gives a blacklist-only model: the blacklist and the sanctions
+      gate still run on every transfer and every vault operation, but `checkVaultOp` stops
+      additionally requiring allowlist membership. `COMPLIANCE_ADMIN` can toggle it at
+      runtime, so this is a starting posture rather than a permanent choice.
 - [ ] `treasury` — where deposits land and redemptions are funded from. Defaults to the
       admin multisig. Point it at a separate liquidity desk and the handover grows a second
       batch that the treasury itself must sign; see §3.
@@ -75,7 +86,12 @@ the values that are genuine judgement calls are in §2.
 
 ### 1.4 Network
 
-- [ ] Add the target chain to `hardhat.config.ts`.
+- [ ] Add the target chain to `hardhat.config.ts`. Sepolia is already there, and
+      [`SEPOLIA.md`](SEPOLIA.md) walks the whole deployment with its values filled in — start
+      there for a rehearsal before doing this on a chain that matters.
+- [ ] Add a per-network entry to `CONFIG_BY_NETWORK` in `scripts/config.ts` if the chain needs
+      parameters of its own. Editing `REFERENCE_CONFIG` in place instead would let one
+      deployment's parameters become every later deployment's defaults.
 - [ ] **The chain must support EIP-1153 (transient storage).** The token's refund carve-out
       and `ReentrancyGuardTransient` both depend on it. `evmVersion` is pinned to `cancun`
       for this reason. A chain without it will not merely run slower — the contracts will

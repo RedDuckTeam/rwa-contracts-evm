@@ -74,8 +74,34 @@ export default defineConfig({
     sepolia: {
       type: "http",
       chainType: "l1",
+      // Pinned, and checked against the RPC before any transaction is signed: an RPC URL
+      // pasted from the wrong project is otherwise indistinguishable from the right one until
+      // the deployment is already on some other chain.
+      chainId: 11155111,
       url: configVariable("SEPOLIA_RPC_URL"),
-      accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+      // TWO keys, in this order, and they must be different accounts:
+      //   [0] deployer — pays for the deployment, ends up holding NO privileges at all.
+      //   [1] admin    — DEFAULT_ADMIN, timelock proposer, treasury. `deploy.ts` refuses to
+      //                  run if this is the same account as the deployer, because that would
+      //                  collapse the operational and critical tiers onto one key and no
+      //                  downstream check could detect it.
+      //
+      // The admin's key is here only because `scripts/handover.ts` signs as it. A production
+      // deployment has a multisig admin, no admin key on this machine, and one entry.
+      accounts: [
+        configVariable("SEPOLIA_PRIVATE_KEY"),
+        configVariable("SEPOLIA_ADMIN_PRIVATE_KEY"),
+      ],
     },
+  },
+  // Etherscan's v2 API is multichain: one key covers Sepolia and mainnet alike. Blockscout and
+  // Sourcify default to enabled; they are off here so a `verify` run has exactly one way to
+  // fail. Flip either to `true` to publish there as well — neither needs a key.
+  verify: {
+    etherscan: {
+      apiKey: configVariable("ETHERSCAN_API_KEY"),
+    },
+    blockscout: { enabled: false },
+    sourcify: { enabled: false },
   },
 });

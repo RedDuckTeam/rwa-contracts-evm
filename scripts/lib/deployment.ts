@@ -3,7 +3,7 @@
  * `verify-deployment.ts` and the integration tests, so all three exercise the same wiring: a
  * test reproducing the graph by hand would stop proving anything about what deploy produces.
  */
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 import { upgrades } from "@openzeppelin/hardhat-upgrades/viem";
@@ -128,7 +128,7 @@ export interface DeployOptions {
 /**
  * The TimelockController goes FIRST because the AccessRegistry takes its address as an
  * initialiser parameter and offers no setter: that is what makes the critical role hierarchy
- * immutable. Everything lands PAUSED with the greenlist enforced, so nothing can move user
+ * immutable. Everything lands PAUSED, and with the greenlist as configured, so nothing can move user
  * funds before `verify-deployment` confirms the wiring.
  */
 export async function deployPlatform(
@@ -153,9 +153,12 @@ export async function deployPlatform(
   ]);
   log(`TimelockController      ${timelock.address}`);
 
+  // The admin-transfer delay is the SAME number as the timelock's minDelay, passed from one
+  // source: if they diverged, the shorter one would set the real reaction window while the
+  // longer one made the deployment look safer than it is.
   const accessRegistry = await api.deployProxy(
     "AccessRegistry",
-    [options.admin, timelock.address],
+    [options.admin, timelock.address, config.timelockDelaySeconds],
     { kind: "uups" },
   );
   log(`AccessRegistry         ${accessRegistry.address}`);
@@ -544,6 +547,17 @@ export interface DeploymentRecord {
   addresses: AddressBook;
   holders: OperationalHolders;
   config: PlatformConfig;
+  /**
+   * The chain the record describes. `deployments/<network>/` is keyed by the NETWORK NAME, and
+   * a name is not an identity: two configurations can both be called "sepolia" and point at
+   * different chains — a fork, a local node, a staging RPC. Without this, deploying under a
+   * reused name silently overwrites a real deployment's record, and every later step then
+   * audits the wrong addresses while reporting confident failures.
+   *
+   * Optional on read for records written before it existed; {readDeploymentRecord} checks it
+   * when present and says so when it is not.
+   */
+  chainId?: number;
 }
 
 /** JSON has no bigint. Tagged round-trip rather than a lossy Number cast. */
@@ -565,6 +579,39 @@ export function writeDeploymentRecord(record: DeploymentRecord): string {
 export function readDeploymentRecord(networkName: string): DeploymentRecord {
   const path = join(deploymentDir(networkName), "deployment.json");
   return JSON.parse(readFileSync(path, "utf8"), bigintReviver) as DeploymentRecord;
+}
+
+/**
+ * Reads the record and refuses one written for a different chain. The failure this prevents is
+ * quiet: the addresses parse, the contracts are absent or — worse — belong to something else,
+ * and the audit reports a wall of wiring failures that describe nothing real.
+ */
+export function readDeploymentRecordForChain(
+  networkName: string,
+  chainId: number,
+): DeploymentRecord {
+  const record = readDeploymentRecord(networkName);
+
+  if (record.chainId === undefined) {
+    console.warn(
+      `deployments/${networkName}/deployment.json predates the chainId field, so it cannot be ` +
+        `checked against the connected chain (${chainId}). Re-run the deploy, or ` +
+        "`pnpm recover-deployment`, to add it.",
+    );
+    return record;
+  }
+
+  if (record.chainId !== chainId) {
+    throw new Error(
+      `deployments/${networkName}/deployment.json was written for chain ${record.chainId}, but ` +
+        `this connection is chain ${chainId}. The directory is keyed by network NAME, so a ` +
+        "second configuration reusing that name overwrites the record of the first. Restore " +
+        `the record (\`pnpm recover-deployment --network ${networkName}\` rebuilds it from the ` +
+        "chain and the proxy manifest) or connect to the chain it describes.",
+    );
+  }
+
+  return record;
 }
 
 export function writeAddressBook(addresses: AddressBook): string {
@@ -615,4 +662,27 @@ export function writeGrantBatch(
 
   writeFileSync(path, `${JSON.stringify(batch, null, 2)}\n`);
   return path;
+}
+
+/**
+ * Reads a batch back as the entries a signer would submit. The handover replays THIS file
+ * rather than re-deriving the calls, for the same reason the integration test does: re-deriving
+ * would test a parallel implementation that happens to agree with the artefact today, and would
+ * keep agreeing with it after the artefact stopped being what a Safe actually executed.
+ */
+export function readGrantBatch(networkName: string, fileName = "grants.json"): SafeTransaction[] {
+  const path = join(deploymentDir(networkName), fileName);
+  const batch = JSON.parse(readFileSync(path, "utf8")) as {
+    transactions: SafeTransaction[];
+  };
+  return batch.transactions.map(({ to, value, data, description }) => ({
+    to,
+    value,
+    data,
+    description,
+  }));
+}
+
+export function grantBatchExists(networkName: string, fileName = "grants.json"): boolean {
+  return existsSync(join(deploymentDir(networkName), fileName));
 }

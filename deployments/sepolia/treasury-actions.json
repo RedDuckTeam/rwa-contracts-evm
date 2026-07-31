@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "chainId": "11155111",
+  "meta": {
+    "name": "RWA platform — treasury actions",
+    "description": "Execute as the tokensProvider (0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c), NOT as the admin multisig. Redemptions pull from this account, so without these approvals every exit reverts."
+  },
+  "transactions": [
+    {
+      "to": "0xcd169A9900A0F24dc1Ec4772ab56614EcAC980CE",
+      "value": "0",
+      "data": "0x095ea7b30000000000000000000000005d4940e7ababe91124b20bf59c7c97cebb8e8e36ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "contractMethod": null,
+      "contractInputsValues": null,
+      "description": "approve(RedemptionVault) on 0xcd169A9900A0F24dc1Ec4772ab56614EcAC980CE — MUST be sent by the tokensProvider (0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c); redemptions pull from it"
+    }
+  ]
+}

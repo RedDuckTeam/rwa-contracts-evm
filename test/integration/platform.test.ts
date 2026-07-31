@@ -227,6 +227,67 @@ describe("two-stage handover", () => {
     assert.equal(multisig.filter((g) => g.description.startsWith("addPaymentToken")).length, 2);
   });
 
+  /**
+   * A testnet rehearsal cannot wait 48h for one grant, so `acceptShortTimelockDelay` lets a
+   * shorter delay through. The property under test is that it waives the GATE and not the
+   * CHECK: the floor is still measured against the same literal, the failure is still recorded
+   * and still reported, and it is the ONLY thing the declaration changes.
+   */
+  it("waives a short timelock delay without turning it into a pass", async () => {
+    const SHORT_DELAY = 10n * 60n;
+    const shortConfig = {
+      ...REFERENCE_CONFIG,
+      timelockDelaySeconds: SHORT_DELAY,
+      acceptShortTimelockDelay: true,
+    };
+
+    const { addresses, grants, treasuryActions, holders, config } = await deployPlatform(
+      hre,
+      connection,
+      { admin, deployMockPaymentToken: true, holders: HOLDERS, config: shortConfig },
+    );
+
+    await replayGrants(connection, admin, grants);
+    await replayGrants(connection, addresses.treasury, treasuryActions);
+    await networkHelpers.time.increase(Number(SHORT_DELAY) + 1);
+    await executeScheduledRefundGrant(connection, addresses);
+
+    const declared = await verifyDeployment(connection, addresses, {
+      expectPaused: true,
+      holders,
+      config,
+    });
+
+    const FLOOR = "timelock minDelay is at least the 48h the trust model assumes";
+    const floorCheck = declared.checks.find((c) => c.name === FLOOR);
+    assert.ok(floorCheck, "the 48h floor is no longer checked at all");
+    assert.equal(floorCheck.ok, false, "the floor check must still FAIL, not silently pass");
+    assert.equal(floorCheck.waived, true);
+    assert.deepEqual(declared.waivers, [FLOOR]);
+    assert.ok(declared.passed, "a declared deviation must not block the handover");
+
+    // The mutation: the SAME chain state, audited without the declaration. If this still
+    // passed, the assertions above would be describing a check that cannot fail either way.
+    const undeclared = await verifyDeployment(connection, addresses, {
+      expectPaused: true,
+      holders,
+      config: { ...config, acceptShortTimelockDelay: false },
+    });
+    assert.equal(undeclared.passed, false);
+    assert.deepEqual(
+      undeclared.checks.filter((c) => !c.ok).map((c) => c.name),
+      [FLOOR],
+      "the declaration must change the verdict on the floor and nothing else",
+    );
+
+    // And the deployment it produced is otherwise a correct one: the delay the registry
+    // enforces is the delay the timelock enforces, whatever that number is.
+    const registryDelay = declared.checks.find((c) =>
+      c.name.startsWith("admin-transfer delay equals"),
+    );
+    assert.equal(registryDelay?.ok, true, registryDelay?.detail);
+  });
+
   it("passes verification in the live posture once unpaused", async () => {
     const fixture = await networkHelpers.loadFixture(deployedPlatform);
     const { addresses } = fixture;

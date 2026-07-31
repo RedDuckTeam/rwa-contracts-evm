@@ -1,0 +1,73 @@
+{
+  "addresses": {
+    "network": "sepolia",
+    "admin": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+    "timelock": "0x27a7257c7617AE080C010cE592B96bfa2574EAC1",
+    "accessRegistry": "0x13652E7D99eafAF2D634Bcb96c4B5E5067b0c932",
+    "complianceRegistry": "0xD4b2CaB348516602Aa0801Cb7d6FbD8349bADB46",
+    "aggregator": "0x478800bB46f922747D7bf8F87E36bF040fD57552",
+    "dataFeed": "0xE0C70Bc3AB7b10F1471F7CA10c5502Bd5D9FF99A",
+    "token": "0x4C09fA8266018EFB4B062a712Ffd4Bda14212F42",
+    "depositVault": "0x42CB1dAF16ad98Ddf315288Ee702eef256d44EC9",
+    "redemptionVault": "0x5D4940E7Ababe91124B20Bf59C7C97CebB8e8E36",
+    "paymentToken": "0xcd169A9900A0F24dc1Ec4772ab56614EcAC980CE",
+    "treasury": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c"
+  },
+  "holders": {
+    "complianceAdmin": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+    "greenlistOperator": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+    "blacklistOperator": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+    "requestOperator": "0x7dF6F896ad739690Ad3dBe07d9215088027fD9de",
+    "vaultAdmin": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+    "feedOperator": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+    "feedAdmin": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+    "pauser": "0x7dF6F896ad739690Ad3dBe07d9215088027fD9de",
+    "unpauser": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c"
+  },
+  "config": {
+    "timelockDelaySeconds": "300n",
+    "acceptShortTimelockDelay": true,
+    "oracle": {
+      "initialAnswer": "100000000n",
+      "minAnswer": "50000000n",
+      "maxAnswer": "1000000000n",
+      "deviationBps": "100n",
+      "updateCooldownSeconds": "300n",
+      "healthyDiffSeconds": "2592000n",
+      "minPriceWad": "500000000000000000n",
+      "maxPriceWad": "10000000000000000000n"
+    },
+    "vault": {
+      "instantFeeBps": "100n",
+      "instantDailyLimitWad": "1000000000000000000000000n",
+      "minAmountWad": "10000000000000000000n",
+      "minFirstAmountWad": "100000000000000000000n",
+      "variationToleranceBps": "100n",
+      "maxSupplyCapWad": "100000000000000000000000000n"
+    },
+    "compliance": {
+      "sanctionsOracle": "0x0000000000000000000000000000000000000000",
+      "greenlistEnabled": false
+    },
+    "treasury": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+    "paymentTokens": [
+      {
+        "address": "0xcd169A9900A0F24dc1Ec4772ab56614EcAC980CE",
+        "feeBps": "0n",
+        "allowanceWad": "115792089237316195423570985008687907853269984665640564039457584007913129639935n"
+      }
+    ],
+    "operationalHolders": {
+      "complianceAdmin": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+      "greenlistOperator": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+      "blacklistOperator": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+      "requestOperator": "0x7dF6F896ad739690Ad3dBe07d9215088027fD9de",
+      "vaultAdmin": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+      "feedOperator": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+      "feedAdmin": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c",
+      "pauser": "0x7dF6F896ad739690Ad3dBe07d9215088027fD9de",
+      "unpauser": "0x731C1d84EC40de8ed7C845E79975d27199C2Eb5c"
+    }
+  },
+  "chainId": 11155111
+}
