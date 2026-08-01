@@ -1,4 +1,19 @@
-# Whitelabel fungible RWA platform
+<p align="center">
+  <a href="https://redduck.io">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset=".github/assets/redduck-logo-dark.svg">
+      <img src=".github/assets/redduck-logo.svg" alt="RedDuck" width="240">
+    </picture>
+  </a>
+</p>
+
+<h1 align="center">Whitelabel Fungible RWA Platform</h1>
+
+<p align="center">
+  <b>Tokenised bonds and treasury products — NAV-priced issuance and redemption, with the trust model written down.</b>
+</p>
+
+---
 
 A template repository for tokenising fungible real-world assets — bonds, treasury products
 and similar NAV-priced instruments. The deliverable is the repository: a client deployment
@@ -9,6 +24,16 @@ Clean-room implementation on OpenZeppelin 5.6.1, Hardhat 3 and viem, solc 0.8.36
 **Read [`docs/TRUST-MODEL.md`](docs/TRUST-MODEL.md) before deploying anything.** This
 platform is not trust-minimised, and that document is where the residual powers are
 inventoried and the blast radius of a key compromise is quantified.
+
+## Built with
+
+| Area | Technology |
+| --- | --- |
+| Contracts | Solidity 0.8.36 (`cancun`), [OpenZeppelin Contracts](https://www.openzeppelin.com/contracts) 5.6.1 + Upgradeable |
+| Upgradeability | UUPS proxies behind a `TimelockController`, [`@openzeppelin/hardhat-upgrades`](https://docs.openzeppelin.com/upgrades-plugins/) |
+| Tooling | [Hardhat 3](https://hardhat.org/), `@nomicfoundation/hardhat-toolbox-viem`, [viem](https://viem.sh/), TypeScript |
+| Testing | Solidity unit, fuzz and invariant tests via [`forge-std`](https://github.com/foundry-rs/forge-std); TypeScript integration tests |
+| Analysis | `solhint`, [Slither](https://github.com/crytic/slither), Foundry (branch coverage), EIP-170 size gate |
 
 ## What is here
 
@@ -109,6 +134,11 @@ leave the core contracts alone. If you find yourself editing `contracts/access`,
 `contracts/vaults` or `contracts/token` during onboarding, check the three intended
 extension points first.
 
-## Licence
+## Contributing
 
-`UNLICENSED` — proprietary, pending a separate business decision.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow, and [SECURITY.md](SECURITY.md)
+before opening a PR that touches privileges, pricing, or anything that can move funds.
+
+## License
+
+[MIT](LICENSE) © RedDuck Limited

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity 0.8.36;
 
 /// @dev Contracts read these through the virtual getters on {WithAccessRegistry}, not

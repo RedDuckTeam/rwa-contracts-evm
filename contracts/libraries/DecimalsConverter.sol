@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity 0.8.36;
 
 /// @dev Converts between a payment token's native decimals and the internal WAD unit. Every

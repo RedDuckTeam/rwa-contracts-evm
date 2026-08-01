@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity 0.8.36;
 
 /// @dev Read surface of the Chainalysis sanctions oracle. Consumed through a gas-capped

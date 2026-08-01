@@ -1,6 +1,21 @@
 {
   "name": "rwa-contracts-evm",
   "version": "1.0.0",
+  "description": "Whitelabel platform for tokenising fungible real-world assets: NAV-priced issuance and redemption, tiered access control, and a written trust model",
+  "license": "MIT",
+  "keywords": [
+    "solidity",
+    "hardhat",
+    "rwa",
+    "tokenisation",
+    "erc20",
+    "erc7943",
+    "nav",
+    "compliance",
+    "uups",
+    "timelock",
+    "whitelabel"
+  ],
   "type": "module",
   "scripts": {
     "build": "hardhat build",

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity 0.8.36;
 
 /// @dev Three independently switchable hazards: an `approve` that returns nothing, an optional

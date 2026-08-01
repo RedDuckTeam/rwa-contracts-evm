@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity 0.8.36;
 
 /// @dev Two families with opposite failure behaviour. `check*` reverts on any uncertainty,
